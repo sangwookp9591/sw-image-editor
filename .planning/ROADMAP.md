@@ -35,7 +35,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 **Plans:** 4 plans
 
 Plans:
-- [ ] 01-01-PLAN.md — Project initialization, dependencies, database schema, environment validation
+- [x] 01-01-PLAN.md — Project initialization, dependencies, database schema, environment validation
 - [ ] 01-02-PLAN.md — Better Auth setup, login/signup pages, Google OAuth, route protection
 - [ ] 01-03-PLAN.md — AI SDK abstraction layer with fal.ai + Replicate, test endpoint
 - [ ] 01-04-PLAN.md — Responsive dashboard layout, sidebar, mobile nav, image upload via Vercel Blob
