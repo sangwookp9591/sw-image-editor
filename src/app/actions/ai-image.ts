@@ -1,13 +1,18 @@
 "use server";
 
-import { generateImage } from "ai";
+import { generateImage, generateText } from "ai";
 import { randomUUID } from "crypto";
 import { PutObjectCommand } from "@aws-sdk/client-s3";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
-import { fal } from "@/lib/ai/providers";
+import { fal, google } from "@/lib/ai/providers";
 import { s3Client, BUCKET } from "@/lib/s3";
 import { getCdnUrl } from "@/lib/cdn";
+import {
+  type TextRegion,
+  callVisionOCR,
+  parseTextAnnotations,
+} from "@/lib/ai/ocr";
 
 async function requireAuth() {
   const session = await auth.api.getSession({
@@ -101,4 +106,52 @@ export async function generateBackground(
 
   const cdnUrl = await uploadToS3(image.uint8Array, "jpg", "image/jpeg");
   return { cdnUrl };
+}
+
+export async function detectText(
+  base64Image: string
+): Promise<{ regions: TextRegion[] }> {
+  await requireAuth();
+
+  try {
+    // Strip data URI prefix if present
+    const imageContent = base64Image.includes(",")
+      ? base64Image.split(",")[1]
+      : base64Image;
+
+    const annotations = await callVisionOCR(imageContent);
+    const regions = parseTextAnnotations(annotations);
+
+    return { regions };
+  } catch (error) {
+    throw new Error(
+      `Text detection failed: ${error instanceof Error ? error.message : "Unknown error"}`
+    );
+  }
+}
+
+export async function translateText(
+  text: string,
+  targetLang: string,
+  context?: string
+): Promise<{ translatedText: string }> {
+  await requireAuth();
+
+  try {
+    const result = await generateText({
+      model: google("gemini-2.5-flash"),
+      system:
+        "You are a professional translator specializing in marketing and advertising copy. " +
+        "Translate the given text naturally, preserving tone and intent. " +
+        "Keep the translation concise to fit similar visual space as the original. " +
+        "Return ONLY the translated text, nothing else.",
+      prompt: `Translate to ${targetLang}:\n"${text}"${context ? `\n\nContext: ${context}` : ""}`,
+    });
+
+    return { translatedText: result.text.trim() };
+  } catch (error) {
+    throw new Error(
+      `Translation failed: ${error instanceof Error ? error.message : "Unknown error"}`
+    );
+  }
 }
