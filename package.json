@@ -1,12 +1,13 @@
 {
-  "name": "image-editor-init",
+  "name": "image-editor",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "test": "vitest run --reporter=verbose"
   },
   "dependencies": {
     "@ai-sdk/fal": "^2.0.27",
