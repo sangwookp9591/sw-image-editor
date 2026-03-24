@@ -16,10 +16,10 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Authentication
 
-- [ ] **AUTH-01**: 이메일/비밀번호로 회원가입 및 로그인
-- [ ] **AUTH-02**: OAuth 로그인 (Google)
-- [ ] **AUTH-03**: 세션이 브라우저 새로고침 후에도 유지됨
-- [ ] **AUTH-04**: 로그아웃 기능
+- [x] **AUTH-01**: 이메일/비밀번호로 회원가입 및 로그인
+- [x] **AUTH-02**: OAuth 로그인 (Google)
+- [x] **AUTH-03**: 세션이 브라우저 새로고침 후에도 유지됨
+- [x] **AUTH-04**: 로그아웃 기능
 
 ### Editor Core
 
@@ -116,10 +116,10 @@ Deferred to future release. Tracked but not in current roadmap.
 | FOUND-02 | Phase 1 | Pending |
 | FOUND-03 | Phase 1 | Complete |
 | FOUND-04 | Phase 1 | Complete |
-| AUTH-01 | Phase 1 | Pending |
-| AUTH-02 | Phase 1 | Pending |
-| AUTH-03 | Phase 1 | Pending |
-| AUTH-04 | Phase 1 | Pending |
+| AUTH-01 | Phase 1 | Complete |
+| AUTH-02 | Phase 1 | Complete |
+| AUTH-03 | Phase 1 | Complete |
+| AUTH-04 | Phase 1 | Complete |
 | UI-01 | Phase 1 | Pending |
 | EDIT-01 | Phase 2 | Pending |
 | EDIT-02 | Phase 2 | Pending |
