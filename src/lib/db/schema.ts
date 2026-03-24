@@ -58,21 +58,6 @@ export const verifications = pgTable("verifications", {
 });
 
 // Application tables
-export const images = pgTable("images", {
-  id: text("id")
-    .primaryKey()
-    .$defaultFn(() => crypto.randomUUID()),
-  userId: text("user_id")
-    .notNull()
-    .references(() => users.id, { onDelete: "cascade" }),
-  url: text("url").notNull().unique(),
-  pathname: text("pathname").notNull(),
-  contentType: text("content_type").notNull(),
-  size: integer("size").notNull(),
-  createdAt: timestamp("created_at").notNull().defaultNow(),
-});
-
-// Stub for Phase 3
 export const projects = pgTable("projects", {
   id: text("id")
     .primaryKey()
@@ -81,6 +66,25 @@ export const projects = pgTable("projects", {
     .notNull()
     .references(() => users.id, { onDelete: "cascade" }),
   name: text("name").notNull().default("Untitled"),
+  canvasJson: text("canvas_json"),
+  thumbnailKey: text("thumbnail_key"),
   createdAt: timestamp("created_at").notNull().defaultNow(),
   updatedAt: timestamp("updated_at").notNull().defaultNow(),
+});
+
+export const images = pgTable("images", {
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+  userId: text("user_id")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
+  projectId: text("project_id").references(() => projects.id, {
+    onDelete: "cascade",
+  }),
+  url: text("url").notNull().unique(),
+  pathname: text("pathname").notNull(),
+  contentType: text("content_type").notNull(),
+  size: integer("size").notNull(),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
 });
