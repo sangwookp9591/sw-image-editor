@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { temporal } from "zundo";
 
-export type ActiveTool = "select" | "crop" | "resize" | "pan";
+export type ActiveTool = "select" | "crop" | "resize" | "pan" | "bg-remove" | "object-eraser";
 export type SaveStatus = "idle" | "saving" | "saved" | "error";
 
 interface EditorState {
@@ -16,6 +16,10 @@ interface EditorState {
   imageUrl: string | null;
   imageName: string | null;
 
+  // AI processing state (NOT undoable)
+  isProcessing: boolean;
+  bgRemoved: boolean;
+
   // Project state (NOT undoable)
   projectId: string | null;
   projectName: string | null;
@@ -29,6 +33,8 @@ interface EditorState {
   setSelectedPreset: (preset: string | null) => void;
   setImageUrl: (url: string | null) => void;
   setImageName: (name: string | null) => void;
+  setIsProcessing: (v: boolean) => void;
+  setBgRemoved: (v: boolean) => void;
   setProjectId: (id: string | null) => void;
   setProjectName: (name: string | null) => void;
   setSaveStatus: (status: SaveStatus) => void;
@@ -44,6 +50,8 @@ export const useEditorStore = create<EditorState>()(
       selectedPreset: null,
       imageUrl: null,
       imageName: null,
+      isProcessing: false,
+      bgRemoved: false,
       projectId: null,
       projectName: null,
       saveStatus: "idle",
@@ -55,6 +63,8 @@ export const useEditorStore = create<EditorState>()(
       setSelectedPreset: (preset) => set({ selectedPreset: preset }),
       setImageUrl: (url) => set({ imageUrl: url }),
       setImageName: (name) => set({ imageName: name }),
+      setIsProcessing: (v) => set({ isProcessing: v }),
+      setBgRemoved: (v) => set({ bgRemoved: v }),
       setProjectId: (id) => set({ projectId: id }),
       setProjectName: (name) => set({ projectName: name }),
       setSaveStatus: (status) => set({ saveStatus: status }),
