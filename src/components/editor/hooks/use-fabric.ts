@@ -61,7 +61,7 @@ export function useFabric(
       const CROP_TAG = "__crop_overlay__";
       const syncToStore = (opt?: { target?: unknown }) => {
         // Don't push crop overlay changes to undo stack
-        if (opt?.target && (opt.target as Record<string, unknown>)[CROP_TAG]) {
+        if (opt?.target && (opt.target as unknown as Record<string, unknown>)[CROP_TAG]) {
           return;
         }
         const json = JSON.stringify(canvas.toJSON());
