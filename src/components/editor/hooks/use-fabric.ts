@@ -64,11 +64,13 @@ export function useFabric(
       fitToContainer(canvas, containerRef.current!);
 
       // Sync canvas state to store on object modifications
-      // Skip sync when crop overlay objects are being manipulated (UI-only objects)
+      // Skip sync when crop overlay or mask objects are being manipulated (UI-only objects)
       const CROP_TAG = "__crop_overlay__";
+      const MASK_TAG_KEY = "__mask__";
       const syncToStore = (opt?: { target?: unknown }) => {
-        // Don't push crop overlay changes to undo stack
-        if (opt?.target && (opt.target as unknown as Record<string, unknown>)[CROP_TAG]) {
+        // Don't push crop overlay or mask changes to undo stack
+        const target = opt?.target as unknown as Record<string, unknown> | undefined;
+        if (target && (target[CROP_TAG] || target[MASK_TAG_KEY])) {
           return;
         }
         const json = JSON.stringify(canvas.toJSON());
