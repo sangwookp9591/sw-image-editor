@@ -3,13 +3,13 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: Ready to execute
-stopped_at: Completed 05-01-PLAN.md
-last_updated: "2026-03-24T10:36:48.909Z"
+stopped_at: Completed 05-02-PLAN.md
+last_updated: "2026-03-24T10:41:20.829Z"
 progress:
   total_phases: 7
   completed_phases: 2
   total_plans: 19
-  completed_plans: 15
+  completed_plans: 16
 ---
 
 # Project State
@@ -24,7 +24,7 @@ See: .planning/PROJECT.md (updated 2026-03-24)
 ## Current Position
 
 Phase: 05 (ai-text-replacement) — EXECUTING
-Plan: 2 of 3
+Plan: 3 of 3
 
 ## Performance Metrics
 
@@ -61,6 +61,7 @@ Plan: 2 of 3
 | Phase 04 P03 | 2min | 2 tasks | 4 files |
 | Phase 04 P02 | 3min | 2 tasks | 4 files |
 | Phase 05 P01 | 2min | 2 tasks | 4 files |
+| Phase 05 P02 | 2min | 2 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -94,6 +95,8 @@ Recent decisions affecting current work:
 - [Phase 04]: Used MASK_TAG constant (same pattern as CROP_TAG) to filter mask brush strokes from undo stack
 - [Phase 04]: Used BG_LAYER_TAG custom property tagging to prevent background layer accumulation
 - [Phase 05]: Used Google Cloud Vision REST API via fetch instead of @google-cloud/vision SDK (118+ deps avoided)
+- [Phase 05]: Used HTML overlay boxes (not Fabric.js objects) for text region highlighting to avoid canvas/undo pollution
+- [Phase 05]: Used TEXT_REPLACE_TAG custom property tagging (same pattern as CROP_TAG, MASK_TAG) to identify replacement IText objects
 
 ### Pending Todos
 
@@ -106,6 +109,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-24T10:36:48.905Z
-Stopped at: Completed 05-01-PLAN.md
+Last session: 2026-03-24T10:41:20.827Z
+Stopped at: Completed 05-02-PLAN.md
 Resume file: None
