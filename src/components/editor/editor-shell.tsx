@@ -11,6 +11,7 @@ import { useKeyboardShortcuts } from "./hooks/use-keyboard";
 import { useEditorStore } from "./hooks/use-editor-store";
 import { useSave } from "./hooks/use-save";
 import { AiProcessingOverlay } from "./ai-processing-overlay";
+import { TextOverlayBoxes } from "./text-overlay-boxes";
 
 interface EditorShellProps {
   imageUrl: string;
@@ -54,7 +55,10 @@ export function EditorShell({
       />
       <div className="flex-1 flex overflow-hidden relative">
         <ToolSidebar />
-        <EditorCanvas imageUrl={imageUrl} fabricRef={fabricRef} initialCanvasJson={initialCanvasJson} />
+        <div className="flex-1 relative">
+          <EditorCanvas imageUrl={imageUrl} fabricRef={fabricRef} initialCanvasJson={initialCanvasJson} />
+          <TextOverlayBoxes fabricRef={fabricRef} />
+        </div>
         <PropertiesPanel fabricRef={fabricRef} />
         <AiProcessingOverlay />
       </div>

@@ -10,6 +10,7 @@ import { CropRatioSelector, SnsPresetSelector } from "./sns-presets";
 import { useCropActions } from "./crop-overlay";
 import { ObjectEraserPanel } from "./object-eraser-panel";
 import { BgReplacePanel } from "./bg-replace-panel";
+import { TextReplacePanel } from "./text-replace-panel";
 import { cn } from "@/lib/utils";
 
 interface PropertiesPanelProps {
@@ -106,6 +107,10 @@ export function PropertiesPanel({ fabricRef }: PropertiesPanelProps) {
 
         {activeTool === "object-eraser" && (
           <ObjectEraserPanel fabricRef={fabricRef} />
+        )}
+
+        {activeTool === "text-replace" && (
+          <TextReplacePanel fabricRef={fabricRef} />
         )}
       </div>
 
