@@ -10,6 +10,7 @@ import { SaveDialog } from "./save-dialog";
 import { useKeyboardShortcuts } from "./hooks/use-keyboard";
 import { useEditorStore } from "./hooks/use-editor-store";
 import { useSave } from "./hooks/use-save";
+import { AiProcessingOverlay } from "./ai-processing-overlay";
 
 interface EditorShellProps {
   imageUrl: string;
@@ -51,10 +52,11 @@ export function EditorShell({
         onSave={() => save()}
         saveStatus={saveStatus}
       />
-      <div className="flex-1 flex overflow-hidden">
+      <div className="flex-1 flex overflow-hidden relative">
         <ToolSidebar />
         <EditorCanvas imageUrl={imageUrl} fabricRef={fabricRef} initialCanvasJson={initialCanvasJson} />
         <PropertiesPanel fabricRef={fabricRef} />
+        <AiProcessingOverlay />
       </div>
       <SaveDialog
         open={needsName}
