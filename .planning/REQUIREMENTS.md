@@ -120,38 +120,38 @@ Deferred to future release. Tracked but not in current roadmap.
 | AUTH-02 | Phase 1 | Pending |
 | AUTH-03 | Phase 1 | Pending |
 | AUTH-04 | Phase 1 | Pending |
+| UI-01 | Phase 1 | Pending |
 | EDIT-01 | Phase 2 | Pending |
 | EDIT-02 | Phase 2 | Pending |
 | EDIT-03 | Phase 2 | Pending |
 | EDIT-04 | Phase 2 | Pending |
 | EDIT-05 | Phase 2 | Pending |
 | EDIT-06 | Phase 2 | Pending |
-| BG-01 | Phase 3 | Pending |
-| BG-02 | Phase 3 | Pending |
-| BG-03 | Phase 3 | Pending |
-| OBJ-01 | Phase 3 | Pending |
-| OBJ-02 | Phase 3 | Pending |
-| TEXT-01 | Phase 4 | Pending |
-| TEXT-02 | Phase 4 | Pending |
-| TEXT-03 | Phase 4 | Pending |
-| TEXT-04 | Phase 4 | Pending |
-| TEXT-05 | Phase 4 | Pending |
-| UPSC-01 | Phase 5 | Pending |
-| UPSC-02 | Phase 5 | Pending |
-| STYL-01 | Phase 5 | Pending |
-| STYL-02 | Phase 5 | Pending |
-| UI-02 | Phase 5 | Pending |
-| PROJ-01 | Phase 6 | Pending |
-| PROJ-02 | Phase 6 | Pending |
-| PROJ-03 | Phase 6 | Pending |
-| PROJ-04 | Phase 6 | Pending |
+| UI-02 | Phase 2 | Pending |
+| PROJ-01 | Phase 3 | Pending |
+| PROJ-02 | Phase 3 | Pending |
+| PROJ-03 | Phase 3 | Pending |
+| PROJ-04 | Phase 3 | Pending |
+| BG-01 | Phase 4 | Pending |
+| BG-02 | Phase 4 | Pending |
+| BG-03 | Phase 4 | Pending |
+| OBJ-01 | Phase 4 | Pending |
+| OBJ-02 | Phase 4 | Pending |
+| UI-03 | Phase 4 | Pending |
+| TEXT-01 | Phase 5 | Pending |
+| TEXT-02 | Phase 5 | Pending |
+| TEXT-03 | Phase 5 | Pending |
+| TEXT-04 | Phase 5 | Pending |
+| TEXT-05 | Phase 5 | Pending |
+| UPSC-01 | Phase 6 | Pending |
+| UPSC-02 | Phase 6 | Pending |
+| STYL-01 | Phase 6 | Pending |
+| STYL-02 | Phase 6 | Pending |
 | BILL-01 | Phase 7 | Pending |
 | BILL-02 | Phase 7 | Pending |
 | BILL-03 | Phase 7 | Pending |
 | BILL-04 | Phase 7 | Pending |
-| UI-01 | Phase 8 | Pending |
-| UI-03 | Phase 8 | Pending |
-| UI-04 | Phase 8 | Pending |
+| UI-04 | Phase 7 | Pending |
 
 **Coverage:**
 - v1 requirements: 40 total
@@ -160,4 +160,4 @@ Deferred to future release. Tracked but not in current roadmap.
 
 ---
 *Requirements defined: 2026-03-24*
-*Last updated: 2026-03-24 after initial definition*
+*Last updated: 2026-03-24 after roadmap creation*
