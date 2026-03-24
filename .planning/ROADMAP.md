@@ -87,7 +87,13 @@ Plans:
   3. User can type a text prompt and get an AI-generated background applied to the image
   4. User can paint over an unwanted object with a brush tool and have it removed seamlessly by AI
   5. User sees a loading indicator with progress status while any AI operation is processing
-**Plans**: TBD
+**Plans:** 4 plans
+
+Plans:
+- [ ] 04-01-PLAN.md — AI server actions (removeBackground, removeObject, generateBackground), store extensions, processing overlay
+- [ ] 04-02-PLAN.md — Background removal hook, sidebar tools, background replacement panel (color/gradient/AI prompt)
+- [ ] 04-03-PLAN.md — Object eraser hook (brush mode, mask export, inpainting), eraser panel with brush controls
+- [ ] 04-04-PLAN.md — Visual verification checkpoint for all AI features
 **UI hint**: yes
 
 ### Phase 5: AI Text Replacement
@@ -138,7 +144,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 | 1. Foundation & Authentication | 0/4 | Planning complete | - |
 | 2. Core Editor | 3/4 | In Progress|  |
 | 3. Project Management | 4/4 | Complete   | 2026-03-24 |
-| 4. AI Background & Object Removal | 0/0 | Not started | - |
+| 4. AI Background & Object Removal | 0/4 | Planning complete | - |
 | 5. AI Text Replacement | 0/0 | Not started | - |
 | 6. AI Upscaling & Style Transfer | 0/0 | Not started | - |
 | 7. Billing, Credits & Polish | 0/0 | Not started | - |
