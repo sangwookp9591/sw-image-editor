@@ -111,7 +111,7 @@ Plans:
 Plans:
 - [x] 05-01-PLAN.md — OCR wrapper (Google Cloud Vision), style extraction utils, @ai-sdk/google provider, detectText + translateText server actions
 - [x] 05-02-PLAN.md — Editor store extension (text-replace tool), use-text-replace hook (OCR + inpaint + IText pipeline), text overlay boxes
-- [ ] 05-03-PLAN.md — TextReplacePanel UI (detect/replace/translate/refine controls), sidebar + properties panel wiring, visual verification
+- [x] 05-03-PLAN.md — TextReplacePanel UI (detect/replace/translate/refine controls), sidebar + properties panel wiring, visual verification
 **UI hint**: yes
 
 ### Phase 6: AI Upscaling & Style Transfer

@@ -35,7 +35,7 @@ Requirements for initial release. Each maps to roadmap phases.
 - [x] **TEXT-01**: 이미지에서 텍스트 영역 자동 감지 (OCR)
 - [x] **TEXT-02**: 감지된 텍스트를 선택하여 새 텍스트로 교체
 - [x] **TEXT-03**: 교체 시 원본 폰트 스타일, 색상, 크기, 원근감 유지
-- [ ] **TEXT-04**: 교체 결과 수동 미세 조정 컨트롤 (위치, 크기, 색상)
+- [x] **TEXT-04**: 교체 결과 수동 미세 조정 컨트롤 (위치, 크기, 색상)
 - [x] **TEXT-05**: 다국어 텍스트 자동 번역 교체 (DeepL/Google Translate 연동)
 
 ### AI Background
@@ -141,7 +141,7 @@ Deferred to future release. Tracked but not in current roadmap.
 | TEXT-01 | Phase 5 | Complete |
 | TEXT-02 | Phase 5 | Complete |
 | TEXT-03 | Phase 5 | Complete |
-| TEXT-04 | Phase 5 | Pending |
+| TEXT-04 | Phase 5 | Complete |
 | TEXT-05 | Phase 5 | Complete |
 | UPSC-01 | Phase 6 | Pending |
 | UPSC-02 | Phase 6 | Pending |
