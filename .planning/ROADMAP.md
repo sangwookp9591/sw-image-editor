@@ -38,7 +38,7 @@ Plans:
 - [x] 01-01-PLAN.md — Project initialization, dependencies, database schema, environment validation
 - [x] 01-02-PLAN.md — Better Auth setup, login/signup pages, Google OAuth, route protection
 - [x] 01-03-PLAN.md — AI SDK abstraction layer with fal.ai + Replicate, test endpoint
-- [ ] 01-04-PLAN.md — Responsive dashboard layout, sidebar, mobile nav, image upload via Vercel Blob
+- [x] 01-04-PLAN.md — Responsive dashboard layout, sidebar, mobile nav, image upload via Vercel Blob
 
 ### Phase 2: Core Editor
 **Goal**: Users can open an image in a full canvas editor, perform non-AI edits (crop, resize), undo/redo their work, and download the result in multiple formats

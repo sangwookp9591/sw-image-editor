@@ -10,7 +10,7 @@ Requirements for initial release. Each maps to roadmap phases.
 ### Foundation
 
 - [x] **FOUND-01**: Next.js 프로젝트 초기화 (App Router, Tailwind CSS, TypeScript)
-- [ ] **FOUND-02**: Vercel Blob을 통한 이미지 업로드 (presigned URL 패턴, 최대 25MB)
+- [x] **FOUND-02**: Vercel Blob을 통한 이미지 업로드 (presigned URL 패턴, 최대 25MB)
 - [x] **FOUND-03**: Drizzle ORM + Neon Postgres 데이터베이스 설정
 - [x] **FOUND-04**: AI API 추상화 레이어 (AI SDK 6 + fal.ai/Replicate)
 
@@ -75,7 +75,7 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### UI/UX
 
-- [ ] **UI-01**: 반응형 웹 UI (데스크톱 우선, 태블릿/모바일 대응)
+- [x] **UI-01**: 반응형 웹 UI (데스크톱 우선, 태블릿/모바일 대응)
 - [ ] **UI-02**: SNS 템플릿 프리셋 (IG Story, FB Post, YouTube Thumbnail, TikTok 등)
 - [ ] **UI-03**: AI 처리 중 로딩/진행 상태 표시
 - [ ] **UI-04**: 다크 모드 지원
@@ -113,14 +113,14 @@ Deferred to future release. Tracked but not in current roadmap.
 | Requirement | Phase | Status |
 |-------------|-------|--------|
 | FOUND-01 | Phase 1 | Complete |
-| FOUND-02 | Phase 1 | Pending |
+| FOUND-02 | Phase 1 | Complete |
 | FOUND-03 | Phase 1 | Complete |
 | FOUND-04 | Phase 1 | Complete |
 | AUTH-01 | Phase 1 | Complete |
 | AUTH-02 | Phase 1 | Complete |
 | AUTH-03 | Phase 1 | Complete |
 | AUTH-04 | Phase 1 | Complete |
-| UI-01 | Phase 1 | Pending |
+| UI-01 | Phase 1 | Complete |
 | EDIT-01 | Phase 2 | Pending |
 | EDIT-02 | Phase 2 | Pending |
 | EDIT-03 | Phase 2 | Pending |
