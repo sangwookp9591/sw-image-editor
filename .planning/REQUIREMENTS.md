@@ -12,7 +12,7 @@ Requirements for initial release. Each maps to roadmap phases.
 - [x] **FOUND-01**: Next.js 프로젝트 초기화 (App Router, Tailwind CSS, TypeScript)
 - [ ] **FOUND-02**: Vercel Blob을 통한 이미지 업로드 (presigned URL 패턴, 최대 25MB)
 - [x] **FOUND-03**: Drizzle ORM + Neon Postgres 데이터베이스 설정
-- [ ] **FOUND-04**: AI API 추상화 레이어 (AI SDK 6 + fal.ai/Replicate)
+- [x] **FOUND-04**: AI API 추상화 레이어 (AI SDK 6 + fal.ai/Replicate)
 
 ### Authentication
 
@@ -115,7 +115,7 @@ Deferred to future release. Tracked but not in current roadmap.
 | FOUND-01 | Phase 1 | Complete |
 | FOUND-02 | Phase 1 | Pending |
 | FOUND-03 | Phase 1 | Complete |
-| FOUND-04 | Phase 1 | Pending |
+| FOUND-04 | Phase 1 | Complete |
 | AUTH-01 | Phase 1 | Pending |
 | AUTH-02 | Phase 1 | Pending |
 | AUTH-03 | Phase 1 | Pending |
