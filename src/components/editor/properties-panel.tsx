@@ -8,6 +8,7 @@ import { useEditorStore } from "./hooks/use-editor-store";
 import { ResizeControls } from "./resize-controls";
 import { CropRatioSelector, SnsPresetSelector } from "./sns-presets";
 import { useCropActions } from "./crop-overlay";
+import { ObjectEraserPanel } from "./object-eraser-panel";
 import { cn } from "@/lib/utils";
 
 interface PropertiesPanelProps {
@@ -96,6 +97,10 @@ export function PropertiesPanel({ fabricRef }: PropertiesPanelProps) {
               Click and drag on the canvas to pan. Use scroll wheel to zoom.
             </p>
           </div>
+        )}
+
+        {activeTool === "object-eraser" && (
+          <ObjectEraserPanel fabricRef={fabricRef} />
         )}
       </div>
 
