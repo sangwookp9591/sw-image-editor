@@ -12,18 +12,18 @@ AI 기반 이미지 편집 SaaS 서비스. SNS/마케팅 담당자가 이미지 
 
 ### Validated
 
-(None yet — ship to validate)
+- ✓ 사용자 회원가입/로그인 — Phase 1
+- ✓ 이미지 업로드 및 미리보기 (기본) — Phase 1
 
 ### Active
 
-- [ ] 이미지 업로드 및 캔버스에서 미리보기
 - [ ] AI 기반 이미지 속 텍스트 감지 및 다른 텍스트로 변환
 - [ ] 배경 제거 및 다른 배경으로 교체
 - [ ] 이미지에서 불필요한 객체 AI 제거
 - [ ] AI 업스케일링으로 해상도 향상
 - [ ] 사진을 일러스트/애니메이션/수채화 등 스타일 변환
 - [ ] 편집 결과 다운로드 (PNG, JPG, WebP)
-- [ ] 사용자 회원가입/로그인
+- [ ] 캔버스 기반 이미지 편집기
 - [ ] 편집 히스토리 및 프로젝트 저장
 - [ ] SaaS 요금제 및 결제 시스템
 
@@ -75,4 +75,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-03-24 after initialization*
+*Last updated: 2026-03-24 after Phase 1 completion*
