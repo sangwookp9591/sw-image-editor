@@ -32,7 +32,13 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. User can upload an image (up to 25MB) and see it displayed in the browser
   4. The application renders correctly on desktop, tablet, and mobile screen sizes
   5. Database stores user records and the AI API abstraction layer responds to test calls
-**Plans**: TBD
+**Plans:** 4 plans
+
+Plans:
+- [ ] 01-01-PLAN.md — Project initialization, dependencies, database schema, environment validation
+- [ ] 01-02-PLAN.md — Better Auth setup, login/signup pages, Google OAuth, route protection
+- [ ] 01-03-PLAN.md — AI SDK abstraction layer with fal.ai + Replicate, test endpoint
+- [ ] 01-04-PLAN.md — Responsive dashboard layout, sidebar, mobile nav, image upload via Vercel Blob
 
 ### Phase 2: Core Editor
 **Goal**: Users can open an image in a full canvas editor, perform non-AI edits (crop, resize), undo/redo their work, and download the result in multiple formats
@@ -117,7 +123,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation & Authentication | 0/0 | Not started | - |
+| 1. Foundation & Authentication | 0/4 | Planning complete | - |
 | 2. Core Editor | 0/0 | Not started | - |
 | 3. Project Management | 0/0 | Not started | - |
 | 4. AI Background & Object Removal | 0/0 | Not started | - |
