@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
+import type { Canvas as FabricCanvas } from "fabric";
 import { EditorCanvas } from "./canvas";
 import { EditorToolbar } from "./toolbar";
 import { ToolSidebar } from "./tool-sidebar";
@@ -15,6 +16,7 @@ interface EditorShellProps {
 
 export function EditorShell({ imageUrl, imageName }: EditorShellProps) {
   useKeyboardShortcuts();
+  const fabricRef = useRef<FabricCanvas | null>(null);
 
   const setImageUrl = useEditorStore((s) => s.setImageUrl);
   const setImageName = useEditorStore((s) => s.setImageName);
@@ -26,11 +28,11 @@ export function EditorShell({ imageUrl, imageName }: EditorShellProps) {
 
   return (
     <div className="h-screen flex flex-col">
-      <EditorToolbar />
+      <EditorToolbar fabricRef={fabricRef} />
       <div className="flex-1 flex overflow-hidden">
         <ToolSidebar />
-        <EditorCanvas imageUrl={imageUrl} />
-        <PropertiesPanel />
+        <EditorCanvas imageUrl={imageUrl} fabricRef={fabricRef} />
+        <PropertiesPanel fabricRef={fabricRef} />
       </div>
     </div>
   );

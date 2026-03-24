@@ -11,9 +11,11 @@ const RESIZE_DEBOUNCE_MS = 150;
 export function useFabric(
   canvasElementRef: RefObject<HTMLCanvasElement | null>,
   containerRef: RefObject<HTMLDivElement | null>,
-  imageUrl: string
+  imageUrl: string,
+  externalFabricRef?: RefObject<FabricCanvas | null>
 ) {
-  const fabricRef = useRef<FabricCanvas | null>(null);
+  const internalFabricRef = useRef<FabricCanvas | null>(null);
+  const fabricRef = externalFabricRef ?? internalFabricRef;
   const [isLoading, setIsLoading] = useState(true);
   const spaceHeldRef = useRef(false);
   const isPanningRef = useRef(false);
@@ -55,7 +57,13 @@ export function useFabric(
       fitToContainer(canvas, containerRef.current!);
 
       // Sync canvas state to store on object modifications
-      const syncToStore = () => {
+      // Skip sync when crop overlay objects are being manipulated (UI-only objects)
+      const CROP_TAG = "__crop_overlay__";
+      const syncToStore = (opt?: { target?: unknown }) => {
+        // Don't push crop overlay changes to undo stack
+        if (opt?.target && (opt.target as Record<string, unknown>)[CROP_TAG]) {
+          return;
+        }
         const json = JSON.stringify(canvas.toJSON());
         useEditorStore.getState().setCanvasJson(json);
       };

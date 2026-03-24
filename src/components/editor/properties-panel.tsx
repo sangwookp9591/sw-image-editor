@@ -1,15 +1,24 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type RefObject } from "react";
+import type { Canvas as FabricCanvas } from "fabric";
 import { PanelRightClose, PanelRightOpen } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useEditorStore } from "./hooks/use-editor-store";
+import { ResizeControls } from "./resize-controls";
+import { CropRatioSelector, SnsPresetSelector } from "./sns-presets";
+import { useCropActions } from "./crop-overlay";
 import { cn } from "@/lib/utils";
 
-export function PropertiesPanel() {
+interface PropertiesPanelProps {
+  fabricRef: RefObject<FabricCanvas | null>;
+}
+
+export function PropertiesPanel({ fabricRef }: PropertiesPanelProps) {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const activeTool = useEditorStore((s) => s.activeTool);
   const imageName = useEditorStore((s) => s.imageName);
+  const { applyCrop, cancelCrop } = useCropActions(fabricRef);
 
   return (
     <div
@@ -53,18 +62,32 @@ export function PropertiesPanel() {
 
         {activeTool === "crop" && (
           <div className="space-y-4">
-            <p className="text-sm text-muted-foreground">
-              Crop controls will be available here.
-            </p>
+            <CropRatioSelector />
+            <div className="border-t pt-4">
+              <SnsPresetSelector />
+            </div>
+            <div className="border-t pt-4 flex gap-2">
+              <Button
+                size="sm"
+                className="flex-1"
+                onClick={applyCrop}
+              >
+                Apply Crop
+              </Button>
+              <Button
+                size="sm"
+                variant="outline"
+                className="flex-1"
+                onClick={cancelCrop}
+              >
+                Cancel
+              </Button>
+            </div>
           </div>
         )}
 
         {activeTool === "resize" && (
-          <div className="space-y-4">
-            <p className="text-sm text-muted-foreground">
-              Resize controls will be available here.
-            </p>
-          </div>
+          <ResizeControls fabricRef={fabricRef} />
         )}
 
         {activeTool === "pan" && (

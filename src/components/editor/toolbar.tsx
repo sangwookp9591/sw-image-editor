@@ -1,13 +1,21 @@
 "use client";
 
+import { useState, type RefObject } from "react";
+import type { Canvas as FabricCanvas } from "fabric";
 import Link from "next/link";
 import { ArrowLeft, Undo2, Redo2, Download, ZoomIn, ZoomOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useEditorStore } from "./hooks/use-editor-store";
+import { ExportModal } from "./export-modal";
 
-export function EditorToolbar() {
+interface EditorToolbarProps {
+  fabricRef: RefObject<FabricCanvas | null>;
+}
+
+export function EditorToolbar({ fabricRef }: EditorToolbarProps) {
   const zoom = useEditorStore((s) => s.zoom);
   const imageName = useEditorStore((s) => s.imageName);
+  const [exportOpen, setExportOpen] = useState(false);
 
   const handleUndo = () => {
     useEditorStore.temporal.getState().undo();
@@ -66,10 +74,22 @@ export function EditorToolbar() {
       </div>
 
       {/* Export */}
-      <Button variant="outline" size="sm" className="gap-1.5">
+      <Button
+        variant="outline"
+        size="sm"
+        className="gap-1.5"
+        onClick={() => setExportOpen(true)}
+      >
         <Download className="h-4 w-4" />
         Export
       </Button>
+
+      <ExportModal
+        fabricRef={fabricRef}
+        imageName={imageName ?? "untitled"}
+        open={exportOpen}
+        onOpenChange={setExportOpen}
+      />
     </div>
   );
 }
