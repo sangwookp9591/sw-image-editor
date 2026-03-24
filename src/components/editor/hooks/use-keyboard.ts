@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 import { useEditorStore } from "./use-editor-store";
 
-export function useKeyboardShortcuts() {
+export function useKeyboardShortcuts(onSave?: () => void) {
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       const isMeta = e.metaKey || e.ctrlKey;
@@ -20,13 +20,14 @@ export function useKeyboardShortcuts() {
         useEditorStore.temporal.getState().redo();
       }
 
-      // Future: Ctrl/Cmd+S for project save (Phase 3)
+      // Save: Ctrl/Cmd+S
       if (isMeta && e.key === "s") {
         e.preventDefault();
+        onSave?.();
       }
     };
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, []);
+  }, [onSave]);
 }

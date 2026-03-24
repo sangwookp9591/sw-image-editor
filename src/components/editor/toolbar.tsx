@@ -3,16 +3,18 @@
 import { useState, type RefObject } from "react";
 import type { Canvas as FabricCanvas } from "fabric";
 import Link from "next/link";
-import { ArrowLeft, Undo2, Redo2, Download, ZoomIn, ZoomOut } from "lucide-react";
+import { ArrowLeft, Undo2, Redo2, Download, ZoomIn, ZoomOut, Save, Loader2, Check, AlertTriangle } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useEditorStore } from "./hooks/use-editor-store";
+import { useEditorStore, type SaveStatus } from "./hooks/use-editor-store";
 import { ExportModal } from "./export-modal";
 
 interface EditorToolbarProps {
   fabricRef: RefObject<FabricCanvas | null>;
+  onSave: () => void;
+  saveStatus: SaveStatus;
 }
 
-export function EditorToolbar({ fabricRef }: EditorToolbarProps) {
+export function EditorToolbar({ fabricRef, onSave, saveStatus }: EditorToolbarProps) {
   const zoom = useEditorStore((s) => s.zoom);
   const imageName = useEditorStore((s) => s.imageName);
   const [exportOpen, setExportOpen] = useState(false);
@@ -32,18 +34,36 @@ export function EditorToolbar({ fabricRef }: EditorToolbarProps) {
   return (
     <div className="h-12 border-b bg-background flex items-center px-4 gap-2">
       {/* Back to dashboard */}
-      <Button
-        variant="ghost"
-        size="icon"
-        render={<Link href="/" />}
+      <Link
+        href="/"
+        className="inline-flex items-center justify-center size-8 rounded-lg hover:bg-muted transition-colors"
       >
         <ArrowLeft className="h-4 w-4" />
-      </Button>
+      </Link>
 
       {/* Image name */}
       <span className="text-sm font-medium truncate max-w-48">
         {imageName ?? "Untitled"}
       </span>
+
+      {/* Save button and status */}
+      <Button
+        variant="ghost"
+        size="icon"
+        onClick={onSave}
+        disabled={saveStatus === "saving"}
+        title="Save (Ctrl+S)"
+      >
+        {saveStatus === "saving" ? (
+          <Loader2 className="h-4 w-4 animate-spin" />
+        ) : saveStatus === "saved" ? (
+          <Check className="h-4 w-4 text-green-500" />
+        ) : saveStatus === "error" ? (
+          <AlertTriangle className="h-4 w-4 text-destructive" />
+        ) : (
+          <Save className="h-4 w-4" />
+        )}
+      </Button>
 
       <div className="flex-1" />
 

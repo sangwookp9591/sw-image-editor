@@ -24,8 +24,22 @@ const EditorShell = dynamic(
 interface EditorLoaderProps {
   imageUrl: string;
   imageName: string;
+  initialCanvasJson?: string | null;
+  projectId?: string | null;
 }
 
-export function EditorLoader({ imageUrl, imageName }: EditorLoaderProps) {
-  return <EditorShell imageUrl={imageUrl} imageName={imageName} />;
+export function EditorLoader({
+  imageUrl,
+  imageName,
+  initialCanvasJson,
+  projectId,
+}: EditorLoaderProps) {
+  return (
+    <EditorShell
+      imageUrl={imageUrl}
+      imageName={imageName}
+      initialCanvasJson={initialCanvasJson}
+      projectId={projectId}
+    />
+  );
 }
