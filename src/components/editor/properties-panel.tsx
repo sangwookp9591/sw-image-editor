@@ -9,6 +9,7 @@ import { ResizeControls } from "./resize-controls";
 import { CropRatioSelector, SnsPresetSelector } from "./sns-presets";
 import { useCropActions } from "./crop-overlay";
 import { ObjectEraserPanel } from "./object-eraser-panel";
+import { BgReplacePanel } from "./bg-replace-panel";
 import { cn } from "@/lib/utils";
 
 interface PropertiesPanelProps {
@@ -97,6 +98,10 @@ export function PropertiesPanel({ fabricRef }: PropertiesPanelProps) {
               Click and drag on the canvas to pan. Use scroll wheel to zoom.
             </p>
           </div>
+        )}
+
+        {activeTool === "bg-remove" && (
+          <BgReplacePanel fabricRef={fabricRef} />
         )}
 
         {activeTool === "object-eraser" && (
