@@ -46,7 +46,7 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### AI Object Removal
 
-- [ ] **OBJ-01**: 브러시로 제거할 영역 선택
+- [x] **OBJ-01**: 브러시로 제거할 영역 선택
 - [x] **OBJ-02**: 선택 영역의 객체를 AI로 자연스럽게 제거 (inpainting)
 
 ### AI Upscaling
@@ -135,7 +135,7 @@ Deferred to future release. Tracked but not in current roadmap.
 | BG-01 | Phase 4 | Complete |
 | BG-02 | Phase 4 | Pending |
 | BG-03 | Phase 4 | Complete |
-| OBJ-01 | Phase 4 | Pending |
+| OBJ-01 | Phase 4 | Complete |
 | OBJ-02 | Phase 4 | Complete |
 | UI-03 | Phase 4 | Complete |
 | TEXT-01 | Phase 5 | Pending |
