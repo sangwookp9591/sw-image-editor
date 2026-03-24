@@ -106,7 +106,12 @@ Plans:
   3. The replaced text visually preserves the original font appearance, color, size, and perspective distortion
   4. User can manually fine-tune the replaced text position, size, and color after AI generation
   5. User can select a target language and have detected text automatically translated and replaced
-**Plans**: TBD
+**Plans:** 3 plans
+
+Plans:
+- [ ] 05-01-PLAN.md — OCR wrapper (Google Cloud Vision), style extraction utils, @ai-sdk/google provider, detectText + translateText server actions
+- [ ] 05-02-PLAN.md — Editor store extension (text-replace tool), use-text-replace hook (OCR + inpaint + IText pipeline), text overlay boxes
+- [ ] 05-03-PLAN.md — TextReplacePanel UI (detect/replace/translate/refine controls), sidebar + properties panel wiring, visual verification
 **UI hint**: yes
 
 ### Phase 6: AI Upscaling & Style Transfer
@@ -145,6 +150,6 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 | 2. Core Editor | 3/4 | In Progress|  |
 | 3. Project Management | 4/4 | Complete   | 2026-03-24 |
 | 4. AI Background & Object Removal | 0/4 | Planning complete | - |
-| 5. AI Text Replacement | 0/0 | Not started | - |
+| 5. AI Text Replacement | 0/3 | Planning complete | - |
 | 6. AI Upscaling & Style Transfer | 0/0 | Not started | - |
 | 7. Billing, Credits & Polish | 0/0 | Not started | - |
