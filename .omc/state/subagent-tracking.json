@@ -1,0 +1,105 @@
+{
+  "agents": [
+    {
+      "agent_id": "a185d452de87c0c8d",
+      "agent_type": "gsd-project-researcher",
+      "started_at": "2026-03-24T00:52:00.219Z",
+      "parent_mode": "none",
+      "status": "completed",
+      "completed_at": "2026-03-24T00:55:30.589Z",
+      "duration_ms": 210370
+    },
+    {
+      "agent_id": "ad8f92f362d53d124",
+      "agent_type": "gsd-project-researcher",
+      "started_at": "2026-03-24T00:52:05.960Z",
+      "parent_mode": "none",
+      "status": "completed",
+      "completed_at": "2026-03-24T00:54:59.469Z",
+      "duration_ms": 173509
+    },
+    {
+      "agent_id": "a5ba5bd9696902c97",
+      "agent_type": "gsd-project-researcher",
+      "started_at": "2026-03-24T00:52:12.069Z",
+      "parent_mode": "none",
+      "status": "completed",
+      "completed_at": "2026-03-24T00:56:45.614Z",
+      "duration_ms": 273545
+    },
+    {
+      "agent_id": "a92cf530b4c395fba",
+      "agent_type": "gsd-project-researcher",
+      "started_at": "2026-03-24T00:52:18.724Z",
+      "parent_mode": "none",
+      "status": "completed",
+      "completed_at": "2026-03-24T00:56:00.644Z",
+      "duration_ms": 221920
+    },
+    {
+      "agent_id": "ad1da3c8cf5fe4192",
+      "agent_type": "gsd-research-synthesizer",
+      "started_at": "2026-03-24T00:56:54.714Z",
+      "parent_mode": "none",
+      "status": "completed",
+      "completed_at": "2026-03-24T00:59:28.977Z",
+      "duration_ms": 154263
+    },
+    {
+      "agent_id": "ad9e9408dec5bec15",
+      "agent_type": "gsd-roadmapper",
+      "started_at": "2026-03-24T01:06:38.836Z",
+      "parent_mode": "none",
+      "status": "completed",
+      "completed_at": "2026-03-24T01:09:55.886Z",
+      "duration_ms": 197050
+    },
+    {
+      "agent_id": "aa7af0041af0332aa",
+      "agent_type": "gsd-phase-researcher",
+      "started_at": "2026-03-24T01:23:00.114Z",
+      "parent_mode": "none",
+      "status": "completed",
+      "completed_at": "2026-03-24T01:28:42.824Z",
+      "duration_ms": 342710
+    },
+    {
+      "agent_id": "afad7910823f8e3d4",
+      "agent_type": "gsd-planner",
+      "started_at": "2026-03-24T01:29:21.837Z",
+      "parent_mode": "none",
+      "status": "completed",
+      "completed_at": "2026-03-24T01:34:41.660Z",
+      "duration_ms": 319823
+    },
+    {
+      "agent_id": "afad4317e63abdf58",
+      "agent_type": "gsd-plan-checker",
+      "started_at": "2026-03-24T01:35:03.389Z",
+      "parent_mode": "none",
+      "status": "completed",
+      "completed_at": "2026-03-24T01:36:53.813Z",
+      "duration_ms": 110424
+    },
+    {
+      "agent_id": "ad2797b3b915311d3",
+      "agent_type": "gsd-planner",
+      "started_at": "2026-03-24T01:37:41.127Z",
+      "parent_mode": "none",
+      "status": "completed",
+      "completed_at": "2026-03-24T01:40:58.353Z",
+      "duration_ms": 197226
+    },
+    {
+      "agent_id": "a9d062f41d68261d8",
+      "agent_type": "gsd-executor",
+      "started_at": "2026-03-24T01:42:31.066Z",
+      "parent_mode": "none",
+      "status": "running"
+    }
+  ],
+  "total_spawned": 11,
+  "total_completed": 10,
+  "total_failed": 0,
+  "last_updated": "2026-03-24T01:42:31.170Z"
+}
