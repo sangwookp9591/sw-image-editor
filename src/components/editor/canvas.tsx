@@ -10,13 +10,14 @@ import { Loader2 } from "lucide-react";
 interface EditorCanvasProps {
   imageUrl: string;
   fabricRef: RefObject<FabricCanvas | null>;
+  initialCanvasJson?: string | null;
 }
 
-export function EditorCanvas({ imageUrl, fabricRef }: EditorCanvasProps) {
+export function EditorCanvas({ imageUrl, fabricRef, initialCanvasJson }: EditorCanvasProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
-  const { isLoading } = useFabric(canvasRef, containerRef, imageUrl, fabricRef);
+  const { isLoading } = useFabric(canvasRef, containerRef, imageUrl, fabricRef, initialCanvasJson);
 
   useClipboardPaste(fabricRef);
 

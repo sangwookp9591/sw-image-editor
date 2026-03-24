@@ -12,7 +12,8 @@ export function useFabric(
   canvasElementRef: RefObject<HTMLCanvasElement | null>,
   containerRef: RefObject<HTMLDivElement | null>,
   imageUrl: string,
-  externalFabricRef?: RefObject<FabricCanvas | null>
+  externalFabricRef?: RefObject<FabricCanvas | null>,
+  initialCanvasJson?: string | null
 ) {
   const internalFabricRef = useRef<FabricCanvas | null>(null);
   const fabricRef = externalFabricRef ?? internalFabricRef;
@@ -37,21 +38,27 @@ export function useFabric(
       });
       fabricRef.current = canvas;
 
-      // Load image onto canvas
-      const img = await fabric.FabricImage.fromURL(imageUrl, {
-        crossOrigin: "anonymous",
-      });
+      if (initialCanvasJson) {
+        // RESTORE: load full canvas state from saved JSON
+        await canvas.loadFromJSON(JSON.parse(initialCanvasJson));
+        canvas.renderAll();
+        // Reset undo/redo history for fresh session (D-13)
+        useEditorStore.temporal.getState().clear();
+      } else {
+        // NEW IMAGE: load from URL
+        const img = await fabric.FabricImage.fromURL(imageUrl);
 
-      if (!mounted) {
-        canvas.dispose();
-        return;
+        if (!mounted) {
+          canvas.dispose();
+          return;
+        }
+
+        canvas.add(img);
+        canvas.setDimensions({
+          width: img.width!,
+          height: img.height!,
+        });
       }
-
-      canvas.add(img);
-      canvas.setDimensions({
-        width: img.width!,
-        height: img.height!,
-      });
 
       // Fit viewport to container
       fitToContainer(canvas, containerRef.current!);
@@ -179,7 +186,7 @@ export function useFabric(
       fabricRef.current?.dispose();
       fabricRef.current = null;
     };
-  }, [imageUrl, canvasElementRef, containerRef]);
+  }, [imageUrl, canvasElementRef, containerRef, initialCanvasJson]);
 
   return { fabricRef, isLoading };
 }

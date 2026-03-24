@@ -33,12 +33,16 @@ export function EditorShell({
   const setImageUrl = useEditorStore((s) => s.setImageUrl);
   const setImageName = useEditorStore((s) => s.setImageName);
   const setProjectId = useEditorStore((s) => s.setProjectId);
+  const setProjectName = useEditorStore((s) => s.setProjectName);
 
   useEffect(() => {
     setImageUrl(imageUrl);
     setImageName(imageName);
-    if (projectId) setProjectId(projectId);
-  }, [imageUrl, imageName, projectId, setImageUrl, setImageName, setProjectId]);
+    if (projectId) {
+      setProjectId(projectId);
+      setProjectName(imageName); // imageName is the project name when loading a project
+    }
+  }, [imageUrl, imageName, projectId, setImageUrl, setImageName, setProjectId, setProjectName]);
 
   return (
     <div className="h-screen flex flex-col">
@@ -49,7 +53,7 @@ export function EditorShell({
       />
       <div className="flex-1 flex overflow-hidden">
         <ToolSidebar />
-        <EditorCanvas imageUrl={imageUrl} fabricRef={fabricRef} />
+        <EditorCanvas imageUrl={imageUrl} fabricRef={fabricRef} initialCanvasJson={initialCanvasJson} />
         <PropertiesPanel fabricRef={fabricRef} />
       </div>
       <SaveDialog
