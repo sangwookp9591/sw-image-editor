@@ -39,13 +39,13 @@ AI 기반 이미지 편집 SaaS 서비스. SNS/마케팅 담당자가 이미지 
 - SNS/마케팅 용도: 배너, 썸네일, 광고 이미지의 텍스트를 다국어로 바꾸거나 문구 수정
 - 텍스트 변환이 핵심 차별점 — 기존 서비스들은 배경 제거/객체 제거는 많지만, 이미지 내 텍스트 자연스러운 교체는 드물다
 - SaaS 모델로 불특정 다수 대상 공개 서비스
-- 프론트엔드: React + Vite (최신 버전)
-- 백엔드: 별도 서버 (AI 모델 API 호출 처리)
+- 풀스택: Next.js (App Router) — 프론트엔드 + API Routes/Server Actions으로 백엔드 통합
+- Vercel 배포 예정
 
 ## Constraints
 
-- **Tech Stack (Frontend)**: React + Vite — 사용자 지정
-- **Tech Stack (Backend)**: 별도 백엔드 서버 — AI API 호출, 인증, 결제 처리
+- **Tech Stack**: Next.js 풀스택 (App Router) — 프론트엔드 + 백엔드 통합
+- **배포**: Vercel — AI Gateway로 AI 모델 통합
 - **AI Models**: 외부 AI API 활용 (자체 모델 학습 없음)
 - **Target**: 웹 브라우저 (데스크톱 우선, 반응형)
 
@@ -53,8 +53,7 @@ AI 기반 이미지 편집 SaaS 서비스. SNS/마케팅 담당자가 이미지 
 
 | Decision | Rationale | Outcome |
 |----------|-----------|---------|
-| React + Vite 프론트엔드 | 사용자 선호, 빠른 개발 속도 | — Pending |
-| 별도 백엔드 서버 | AI API 키 보호, 인증/결제 서버 필요 | — Pending |
+| Next.js 풀스택 | 프론트+백엔드 통합, Vercel 최적화 배포 | — Pending |
 | 이미지 내 텍스트 변환을 핵심 기능으로 | 경쟁 서비스 대비 차별점 | — Pending |
 | SaaS 모델 | 불특정 다수 대상 공개 서비스 | — Pending |
 
