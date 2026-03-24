@@ -53,7 +53,7 @@ Plans:
 **Plans:** 4 plans
 
 Plans:
-- [ ] 02-01-PLAN.md — Editor foundation: Fabric.js canvas, Zustand+Zundo store, 3-panel layout, image loading, clipboard paste, undo/redo
+- [x] 02-01-PLAN.md — Editor foundation: Fabric.js canvas, Zustand+Zundo store, 3-panel layout, image loading, clipboard paste, undo/redo
 - [ ] 02-02-PLAN.md — Crop tool with dark mask overlay, ratio presets, SNS platform presets
 - [ ] 02-03-PLAN.md — Resize tool with aspect ratio lock, export modal with format/quality/resolution
 - [ ] 02-04-PLAN.md — Visual verification checkpoint for complete editor workflow
