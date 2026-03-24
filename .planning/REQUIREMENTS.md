@@ -41,7 +41,7 @@ Requirements for initial release. Each maps to roadmap phases.
 ### AI Background
 
 - [x] **BG-01**: 원클릭 배경 제거 (투명 배경)
-- [ ] **BG-02**: 제거된 배경을 단색/그라데이션으로 교체
+- [x] **BG-02**: 제거된 배경을 단색/그라데이션으로 교체
 - [x] **BG-03**: AI 생성 배경으로 교체 (프롬프트 입력)
 
 ### AI Object Removal
@@ -133,7 +133,7 @@ Deferred to future release. Tracked but not in current roadmap.
 | PROJ-03 | Phase 3 | Complete |
 | PROJ-04 | Phase 3 | Complete |
 | BG-01 | Phase 4 | Complete |
-| BG-02 | Phase 4 | Pending |
+| BG-02 | Phase 4 | Complete |
 | BG-03 | Phase 4 | Complete |
 | OBJ-01 | Phase 4 | Complete |
 | OBJ-02 | Phase 4 | Complete |
