@@ -25,7 +25,7 @@ Requirements for initial release. Each maps to roadmap phases.
 
 - [x] **EDIT-01**: 이미지 드래그앤드롭/클릭으로 업로드 및 캔버스에 미리보기
 - [x] **EDIT-02**: 클립보드에서 이미지 붙여넣기
-- [ ] **EDIT-03**: 크롭 도구 (자유 비율 + SNS 플랫폼 프리셋 비율)
+- [x] **EDIT-03**: 크롭 도구 (자유 비율 + SNS 플랫폼 프리셋 비율)
 - [x] **EDIT-04**: 리사이즈 도구 (px 단위 크기 조절)
 - [x] **EDIT-05**: Undo/Redo (최소 20단계)
 - [x] **EDIT-06**: 편집 결과 다운로드 (PNG, JPG, WebP + 품질/해상도 선택)
@@ -76,7 +76,7 @@ Requirements for initial release. Each maps to roadmap phases.
 ### UI/UX
 
 - [x] **UI-01**: 반응형 웹 UI (데스크톱 우선, 태블릿/모바일 대응)
-- [ ] **UI-02**: SNS 템플릿 프리셋 (IG Story, FB Post, YouTube Thumbnail, TikTok 등)
+- [x] **UI-02**: SNS 템플릿 프리셋 (IG Story, FB Post, YouTube Thumbnail, TikTok 등)
 - [ ] **UI-03**: AI 처리 중 로딩/진행 상태 표시
 - [ ] **UI-04**: 다크 모드 지원
 
@@ -123,11 +123,11 @@ Deferred to future release. Tracked but not in current roadmap.
 | UI-01 | Phase 1 | Complete |
 | EDIT-01 | Phase 2 | Complete |
 | EDIT-02 | Phase 2 | Complete |
-| EDIT-03 | Phase 2 | Pending |
+| EDIT-03 | Phase 2 | Complete |
 | EDIT-04 | Phase 2 | Complete |
 | EDIT-05 | Phase 2 | Complete |
 | EDIT-06 | Phase 2 | Complete |
-| UI-02 | Phase 2 | Pending |
+| UI-02 | Phase 2 | Complete |
 | PROJ-01 | Phase 3 | Pending |
 | PROJ-02 | Phase 3 | Pending |
 | PROJ-03 | Phase 3 | Pending |

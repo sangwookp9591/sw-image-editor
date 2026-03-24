@@ -3,13 +3,13 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: Ready to execute
-stopped_at: Completed 02-03-PLAN.md
-last_updated: "2026-03-24T03:02:04.355Z"
+stopped_at: Completed 02-02-PLAN.md
+last_updated: "2026-03-24T03:03:00.989Z"
 progress:
   total_phases: 7
   completed_phases: 1
   total_plans: 8
-  completed_plans: 6
+  completed_plans: 7
 ---
 
 # Project State
@@ -24,7 +24,7 @@ See: .planning/PROJECT.md (updated 2026-03-24)
 ## Current Position
 
 Phase: 02 (core-editor) — EXECUTING
-Plan: 3 of 4
+Plan: 4 of 4
 
 ## Performance Metrics
 
@@ -52,6 +52,7 @@ Plan: 3 of 4
 | Phase 01 P04 | 5min | 2 tasks | 11 files |
 | Phase 02 P01 | 6min | 2 tasks | 24 files |
 | Phase 02 P03 | 4min | 2 tasks | 11 files |
+| Phase 02 P02 | 5min | 2 tasks | 8 files |
 
 ## Accumulated Context
 
@@ -74,6 +75,8 @@ Recent decisions affecting current work:
 - [Phase 02]: Used client wrapper (EditorLoader) for dynamic import with ssr:false since Next.js 16 disallows ssr:false in Server Components
 - [Phase 02]: Used base-ui render prop and delay prop instead of radix asChild/delayDuration for shadcn v4 components
 - [Phase 02]: Lifted fabricRef from EditorCanvas to EditorShell for shared cross-component canvas access
+- [Phase 02]: Used Fabric.js object tagging (CROP_TAG) to distinguish UI overlay objects from content objects
+- [Phase 02]: Filtered crop overlay objects from undo stack sync events to prevent UI state pollution
 
 ### Pending Todos
 
@@ -86,6 +89,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-24T03:02:04.353Z
-Stopped at: Completed 02-03-PLAN.md
+Last session: 2026-03-24T03:03:00.987Z
+Stopped at: Completed 02-02-PLAN.md
 Resume file: None
