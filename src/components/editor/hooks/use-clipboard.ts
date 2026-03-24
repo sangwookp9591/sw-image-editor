@@ -43,7 +43,7 @@ export function useClipboardPaste(
             canvas.requestRenderAll();
 
             // Sync to store
-            const json = JSON.stringify(canvas.toJSON(["src"]));
+            const json = JSON.stringify(canvas.toJSON());
             useEditorStore.getState().setCanvasJson(json);
           } finally {
             URL.revokeObjectURL(url);

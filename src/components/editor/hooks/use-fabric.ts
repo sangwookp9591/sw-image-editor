@@ -56,7 +56,7 @@ export function useFabric(
 
       // Sync canvas state to store on object modifications
       const syncToStore = () => {
-        const json = JSON.stringify(canvas.toJSON(["src"]));
+        const json = JSON.stringify(canvas.toJSON());
         useEditorStore.getState().setCanvasJson(json);
       };
       canvas.on("object:modified", syncToStore);
