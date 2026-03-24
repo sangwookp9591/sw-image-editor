@@ -61,10 +61,10 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Project Management
 
-- [ ] **PROJ-01**: 편집 상태를 프로젝트로 저장
-- [ ] **PROJ-02**: 대시보드에서 저장된 프로젝트 목록 (썸네일 미리보기)
-- [ ] **PROJ-03**: 저장된 프로젝트 열어서 편집 재개
-- [ ] **PROJ-04**: 프로젝트 삭제
+- [x] **PROJ-01**: 편집 상태를 프로젝트로 저장
+- [x] **PROJ-02**: 대시보드에서 저장된 프로젝트 목록 (썸네일 미리보기)
+- [x] **PROJ-03**: 저장된 프로젝트 열어서 편집 재개
+- [x] **PROJ-04**: 프로젝트 삭제
 
 ### Billing & Credits
 
@@ -128,10 +128,10 @@ Deferred to future release. Tracked but not in current roadmap.
 | EDIT-05 | Phase 2 | Complete |
 | EDIT-06 | Phase 2 | Complete |
 | UI-02 | Phase 2 | Complete |
-| PROJ-01 | Phase 3 | Pending |
-| PROJ-02 | Phase 3 | Pending |
-| PROJ-03 | Phase 3 | Pending |
-| PROJ-04 | Phase 3 | Pending |
+| PROJ-01 | Phase 3 | Complete |
+| PROJ-02 | Phase 3 | Complete |
+| PROJ-03 | Phase 3 | Complete |
+| PROJ-04 | Phase 3 | Complete |
 | BG-01 | Phase 4 | Pending |
 | BG-02 | Phase 4 | Pending |
 | BG-03 | Phase 4 | Pending |
