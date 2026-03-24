@@ -68,7 +68,13 @@ Plans:
   2. User can view a dashboard listing all saved projects with thumbnail previews
   3. User can open a saved project and resume editing exactly where they left off
   4. User can delete a project from the dashboard
-**Plans**: TBD
+**Plans:** 4 plans
+
+Plans:
+- [ ] 03-01-PLAN.md — Schema migration, Server Actions (save/delete), query helpers, thumbnail upload route
+- [ ] 03-02-PLAN.md — Editor save flow: Zustand store additions, useSave hook, save dialog, toolbar button, Ctrl+S
+- [ ] 03-03-PLAN.md — Dashboard project grid with thumbnail cards, empty state, delete with confirmation
+- [ ] 03-04-PLAN.md — Project editor route, canvas restore via loadFromJSON, visual verification checkpoint
 **UI hint**: yes
 
 ### Phase 4: AI Background & Object Removal
@@ -131,7 +137,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 |-------|----------------|--------|-----------|
 | 1. Foundation & Authentication | 0/4 | Planning complete | - |
 | 2. Core Editor | 3/4 | In Progress|  |
-| 3. Project Management | 0/0 | Not started | - |
+| 3. Project Management | 0/4 | Planning complete | - |
 | 4. AI Background & Object Removal | 0/0 | Not started | - |
 | 5. AI Text Replacement | 0/0 | Not started | - |
 | 6. AI Upscaling & Style Transfer | 0/0 | Not started | - |
