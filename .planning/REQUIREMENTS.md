@@ -40,14 +40,14 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### AI Background
 
-- [ ] **BG-01**: 원클릭 배경 제거 (투명 배경)
+- [x] **BG-01**: 원클릭 배경 제거 (투명 배경)
 - [ ] **BG-02**: 제거된 배경을 단색/그라데이션으로 교체
-- [ ] **BG-03**: AI 생성 배경으로 교체 (프롬프트 입력)
+- [x] **BG-03**: AI 생성 배경으로 교체 (프롬프트 입력)
 
 ### AI Object Removal
 
 - [ ] **OBJ-01**: 브러시로 제거할 영역 선택
-- [ ] **OBJ-02**: 선택 영역의 객체를 AI로 자연스럽게 제거 (inpainting)
+- [x] **OBJ-02**: 선택 영역의 객체를 AI로 자연스럽게 제거 (inpainting)
 
 ### AI Upscaling
 
@@ -77,7 +77,7 @@ Requirements for initial release. Each maps to roadmap phases.
 
 - [x] **UI-01**: 반응형 웹 UI (데스크톱 우선, 태블릿/모바일 대응)
 - [x] **UI-02**: SNS 템플릿 프리셋 (IG Story, FB Post, YouTube Thumbnail, TikTok 등)
-- [ ] **UI-03**: AI 처리 중 로딩/진행 상태 표시
+- [x] **UI-03**: AI 처리 중 로딩/진행 상태 표시
 - [ ] **UI-04**: 다크 모드 지원
 
 ## v2 Requirements
@@ -132,12 +132,12 @@ Deferred to future release. Tracked but not in current roadmap.
 | PROJ-02 | Phase 3 | Complete |
 | PROJ-03 | Phase 3 | Complete |
 | PROJ-04 | Phase 3 | Complete |
-| BG-01 | Phase 4 | Pending |
+| BG-01 | Phase 4 | Complete |
 | BG-02 | Phase 4 | Pending |
-| BG-03 | Phase 4 | Pending |
+| BG-03 | Phase 4 | Complete |
 | OBJ-01 | Phase 4 | Pending |
-| OBJ-02 | Phase 4 | Pending |
-| UI-03 | Phase 4 | Pending |
+| OBJ-02 | Phase 4 | Complete |
+| UI-03 | Phase 4 | Complete |
 | TEXT-01 | Phase 5 | Pending |
 | TEXT-02 | Phase 5 | Pending |
 | TEXT-03 | Phase 5 | Pending |

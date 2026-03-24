@@ -90,7 +90,7 @@ Plans:
 **Plans:** 4 plans
 
 Plans:
-- [ ] 04-01-PLAN.md — AI server actions (removeBackground, removeObject, generateBackground), store extensions, processing overlay
+- [x] 04-01-PLAN.md — AI server actions (removeBackground, removeObject, generateBackground), store extensions, processing overlay
 - [ ] 04-02-PLAN.md — Background removal hook, sidebar tools, background replacement panel (color/gradient/AI prompt)
 - [ ] 04-03-PLAN.md — Object eraser hook (brush mode, mask export, inpainting), eraser panel with brush controls
 - [ ] 04-04-PLAN.md — Visual verification checkpoint for all AI features
