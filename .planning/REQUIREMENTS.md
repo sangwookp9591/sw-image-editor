@@ -26,9 +26,9 @@ Requirements for initial release. Each maps to roadmap phases.
 - [x] **EDIT-01**: 이미지 드래그앤드롭/클릭으로 업로드 및 캔버스에 미리보기
 - [x] **EDIT-02**: 클립보드에서 이미지 붙여넣기
 - [ ] **EDIT-03**: 크롭 도구 (자유 비율 + SNS 플랫폼 프리셋 비율)
-- [ ] **EDIT-04**: 리사이즈 도구 (px 단위 크기 조절)
+- [x] **EDIT-04**: 리사이즈 도구 (px 단위 크기 조절)
 - [x] **EDIT-05**: Undo/Redo (최소 20단계)
-- [ ] **EDIT-06**: 편집 결과 다운로드 (PNG, JPG, WebP + 품질/해상도 선택)
+- [x] **EDIT-06**: 편집 결과 다운로드 (PNG, JPG, WebP + 품질/해상도 선택)
 
 ### AI Text Replacement (Core Differentiator)
 
@@ -124,9 +124,9 @@ Deferred to future release. Tracked but not in current roadmap.
 | EDIT-01 | Phase 2 | Complete |
 | EDIT-02 | Phase 2 | Complete |
 | EDIT-03 | Phase 2 | Pending |
-| EDIT-04 | Phase 2 | Pending |
+| EDIT-04 | Phase 2 | Complete |
 | EDIT-05 | Phase 2 | Complete |
-| EDIT-06 | Phase 2 | Pending |
+| EDIT-06 | Phase 2 | Complete |
 | UI-02 | Phase 2 | Pending |
 | PROJ-01 | Phase 3 | Pending |
 | PROJ-02 | Phase 3 | Pending |

@@ -50,12 +50,12 @@ Plans:
   3. User can resize an image by specifying pixel dimensions
   4. User can undo and redo at least 20 editing steps
   5. User can download the edited image as PNG, JPG, or WebP with quality and resolution options
-**Plans:** 4 plans
+**Plans:** 2/4 plans executed
 
 Plans:
 - [x] 02-01-PLAN.md — Editor foundation: Fabric.js canvas, Zustand+Zundo store, 3-panel layout, image loading, clipboard paste, undo/redo
 - [ ] 02-02-PLAN.md — Crop tool with dark mask overlay, ratio presets, SNS platform presets
-- [ ] 02-03-PLAN.md — Resize tool with aspect ratio lock, export modal with format/quality/resolution
+- [x] 02-03-PLAN.md — Resize tool with aspect ratio lock, export modal with format/quality/resolution
 - [ ] 02-04-PLAN.md — Visual verification checkpoint for complete editor workflow
 **UI hint**: yes
 
@@ -130,7 +130,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Foundation & Authentication | 0/4 | Planning complete | - |
-| 2. Core Editor | 0/4 | Planning complete | - |
+| 2. Core Editor | 2/4 | In Progress|  |
 | 3. Project Management | 0/0 | Not started | - |
 | 4. AI Background & Object Removal | 0/0 | Not started | - |
 | 5. AI Text Replacement | 0/0 | Not started | - |
