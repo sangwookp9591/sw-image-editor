@@ -72,7 +72,7 @@ Plans:
 
 Plans:
 - [x] 03-01-PLAN.md — Schema migration, Server Actions (save/delete), query helpers, thumbnail upload route
-- [ ] 03-02-PLAN.md — Editor save flow: Zustand store additions, useSave hook, save dialog, toolbar button, Ctrl+S
+- [x] 03-02-PLAN.md — Editor save flow: Zustand store additions, useSave hook, save dialog, toolbar button, Ctrl+S
 - [x] 03-03-PLAN.md — Dashboard project grid with thumbnail cards, empty state, delete with confirmation
 - [ ] 03-04-PLAN.md — Project editor route, canvas restore via loadFromJSON, visual verification checkpoint
 **UI hint**: yes
