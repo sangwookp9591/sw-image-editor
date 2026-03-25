@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, Settings, LogOut } from "lucide-react";
+import { LayoutDashboard, Settings, LogOut, CreditCard } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -18,6 +18,7 @@ interface SidebarProps {
 
 const navItems = [
   { href: "/", label: "Home", icon: LayoutDashboard },
+  { href: "/usage", label: "Usage", icon: CreditCard },
   { href: "/settings", label: "Settings", icon: Settings },
 ];
 
