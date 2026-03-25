@@ -11,6 +11,8 @@ import { useCropActions } from "./crop-overlay";
 import { ObjectEraserPanel } from "./object-eraser-panel";
 import { BgReplacePanel } from "./bg-replace-panel";
 import { TextReplacePanel } from "./text-replace-panel";
+import { UpscalePanel } from "./upscale-panel";
+import { StyleTransferPanel } from "./style-transfer-panel";
 import { cn } from "@/lib/utils";
 
 interface PropertiesPanelProps {
@@ -111,6 +113,14 @@ export function PropertiesPanel({ fabricRef }: PropertiesPanelProps) {
 
         {activeTool === "text-replace" && (
           <TextReplacePanel fabricRef={fabricRef} />
+        )}
+
+        {activeTool === "upscale" && (
+          <UpscalePanel fabricRef={fabricRef} />
+        )}
+
+        {activeTool === "style-transfer" && (
+          <StyleTransferPanel fabricRef={fabricRef} />
         )}
       </div>
 

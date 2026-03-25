@@ -1,6 +1,6 @@
 "use client";
 
-import { MousePointer2, Crop, Maximize2, Hand, ImageMinus, Eraser, Type } from "lucide-react";
+import { MousePointer2, Crop, Maximize2, Hand, ImageMinus, Eraser, Type, ArrowUpFromLine, Palette } from "lucide-react";
 import {
   Tooltip,
   TooltipContent,
@@ -21,6 +21,8 @@ const AI_TOOLS: { id: ActiveTool; label: string; icon: React.ComponentType<{ cla
   { id: "bg-remove", label: "Remove Background", icon: ImageMinus },
   { id: "object-eraser", label: "Object Eraser", icon: Eraser },
   { id: "text-replace", label: "Text Replace", icon: Type },
+  { id: "upscale", label: "Upscale", icon: ArrowUpFromLine },
+  { id: "style-transfer", label: "Style Transfer", icon: Palette },
 ];
 
 export function ToolSidebar() {
