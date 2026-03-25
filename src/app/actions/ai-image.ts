@@ -130,6 +130,84 @@ export async function detectText(
   }
 }
 
+export async function upscaleImage(
+  base64Image: string,
+  scale: 2 | 4
+): Promise<{ cdnUrl: string }> {
+  await requireAuth();
+
+  try {
+    const imageBuffer = Buffer.from(
+      base64Image.split(",")[1] || base64Image,
+      "base64"
+    );
+
+    const { image } = await generateImage({
+      model: fal.image("fal-ai/creative-upscaler"),
+      prompt: {
+        text: "",
+        images: [imageBuffer],
+      },
+      providerOptions: {
+        fal: {
+          scale,
+          outputFormat: "png",
+          syncMode: true,
+        },
+      },
+      abortSignal: AbortSignal.timeout(90_000),
+    });
+
+    const cdnUrl = await uploadToS3(image.uint8Array, "png", "image/png");
+    return { cdnUrl };
+  } catch (error) {
+    throw new Error(
+      `Upscaling failed: ${error instanceof Error ? error.message : "Unknown error"}`
+    );
+  }
+}
+
+export async function styleTransfer(
+  base64Image: string,
+  style: string,
+  intensity: number
+): Promise<{ cdnUrl: string }> {
+  await requireAuth();
+
+  try {
+    const imageBuffer = Buffer.from(
+      base64Image.split(",")[1] || base64Image,
+      "base64"
+    );
+
+    const strengthLabel =
+      intensity <= 0.3 ? "subtle" : intensity <= 0.7 ? "moderate" : "strong";
+
+    const { image } = await generateImage({
+      model: fal.image("fal-ai/flux/dev/image-to-image"),
+      prompt: {
+        text: `Transform this image into ${style} style. Apply a ${strengthLabel} transformation while preserving the original composition and subject matter.`,
+        images: [imageBuffer],
+      },
+      providerOptions: {
+        fal: {
+          strength: intensity,
+          outputFormat: "png",
+          syncMode: true,
+        },
+      },
+      abortSignal: AbortSignal.timeout(90_000),
+    });
+
+    const cdnUrl = await uploadToS3(image.uint8Array, "png", "image/png");
+    return { cdnUrl };
+  } catch (error) {
+    throw new Error(
+      `Style transfer failed: ${error instanceof Error ? error.message : "Unknown error"}`
+    );
+  }
+}
+
 export async function translateText(
   text: string,
   targetLang: string,
