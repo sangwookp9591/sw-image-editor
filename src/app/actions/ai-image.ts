@@ -13,6 +13,7 @@ import {
   callVisionOCR,
   parseTextAnnotations,
 } from "@/lib/ai/ocr";
+import { checkAndDeductCredits } from "@/lib/credits";
 
 async function requireAuth() {
   const session = await auth.api.getSession({
@@ -42,7 +43,8 @@ async function uploadToS3(
 export async function removeBackground(
   base64Image: string
 ): Promise<{ cdnUrl: string }> {
-  await requireAuth();
+  const session = await requireAuth();
+  await checkAndDeductCredits(session.user.id, "removeBackground");
 
   const imageBuffer = Buffer.from(base64Image.split(",")[1] || base64Image, "base64");
 
@@ -66,7 +68,8 @@ export async function removeObject(
   base64Image: string,
   base64Mask: string
 ): Promise<{ cdnUrl: string }> {
-  await requireAuth();
+  const session = await requireAuth();
+  await checkAndDeductCredits(session.user.id, "removeObject");
 
   const imageBuffer = Buffer.from(base64Image.split(",")[1] || base64Image, "base64");
   const maskBuffer = Buffer.from(base64Mask.split(",")[1] || base64Mask, "base64");
@@ -92,7 +95,8 @@ export async function generateBackground(
   prompt: string,
   aspectRatio?: string
 ): Promise<{ cdnUrl: string }> {
-  await requireAuth();
+  const session = await requireAuth();
+  await checkAndDeductCredits(session.user.id, "generateBackground");
 
   const { image } = await generateImage({
     model: fal.image("fal-ai/flux/dev"),
@@ -111,7 +115,8 @@ export async function generateBackground(
 export async function detectText(
   base64Image: string
 ): Promise<{ regions: TextRegion[] }> {
-  await requireAuth();
+  const session = await requireAuth();
+  await checkAndDeductCredits(session.user.id, "detectText");
 
   try {
     // Strip data URI prefix if present
@@ -213,7 +218,8 @@ export async function translateText(
   targetLang: string,
   context?: string
 ): Promise<{ translatedText: string }> {
-  await requireAuth();
+  const session = await requireAuth();
+  await checkAndDeductCredits(session.user.id, "translateText");
 
   try {
     const result = await generateText({

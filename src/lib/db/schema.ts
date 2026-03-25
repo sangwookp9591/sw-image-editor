@@ -57,6 +57,61 @@ export const verifications = pgTable("verifications", {
   updatedAt: timestamp("updated_at").notNull().defaultNow(),
 });
 
+// Billing tables
+export const plans = pgTable("plans", {
+  id: text("id").primaryKey(),
+  name: text("name").notNull(),
+  stripePriceId: text("stripe_price_id").notNull(),
+  credits: integer("credits").notNull(),
+  price: integer("price").notNull(), // in cents
+  interval: text("interval").notNull().default("month"), // month | year
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+});
+
+export const subscriptions = pgTable("subscriptions", {
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+  userId: text("user_id")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" })
+    .unique(),
+  planId: text("plan_id")
+    .notNull()
+    .references(() => plans.id),
+  stripeCustomerId: text("stripe_customer_id").notNull(),
+  stripeSubscriptionId: text("stripe_subscription_id").notNull().unique(),
+  status: text("status").notNull().default("active"), // active | canceled | past_due | unpaid
+  currentPeriodEnd: timestamp("current_period_end").notNull(),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+  updatedAt: timestamp("updated_at").notNull().defaultNow(),
+});
+
+export const creditBalances = pgTable("credit_balances", {
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+  userId: text("user_id")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" })
+    .unique(),
+  balance: integer("balance").notNull().default(0),
+  updatedAt: timestamp("updated_at").notNull().defaultNow(),
+});
+
+export const creditTransactions = pgTable("credit_transactions", {
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+  userId: text("user_id")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
+  amount: integer("amount").notNull(), // positive = grant/purchase, negative = deduct
+  type: text("type").notNull(), // grant | deduct | purchase
+  description: text("description"),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+});
+
 // Application tables
 export const projects = pgTable("projects", {
   id: text("id")
