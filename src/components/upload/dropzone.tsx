@@ -1,14 +1,15 @@
 "use client";
 
 import { useDropzone } from "react-dropzone";
-import { upload } from "@vercel/blob/client";
 import { useState } from "react";
 import { toast } from "sonner";
-import { ALLOWED_IMAGE_TYPES, MAX_FILE_SIZE } from "@/lib/blob";
+import { useRouter } from "next/navigation";
+
+const MAX_FILE_SIZE = 25 * 1024 * 1024; // 25MB
 
 export function ImageDropzone() {
   const [uploading, setUploading] = useState(false);
-  const [uploadedUrl, setUploadedUrl] = useState<string | null>(null);
+  const router = useRouter();
 
   const onDrop = async (acceptedFiles: File[]) => {
     const file = acceptedFiles[0];
@@ -21,34 +22,44 @@ export function ImageDropzone() {
 
     setUploading(true);
     try {
-      const newBlob = await upload(file.name, file, {
-        access: "public",
-        handleUploadUrl: "/api/upload",
+      // 1. Get presigned URL from our API
+      const res = await fetch("/api/upload", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          fileName: file.name,
+          contentType: file.type,
+          size: file.size,
+        }),
       });
 
-      // Client-side fallback: save upload record to DB via /api/upload/record.
-      // This ensures the record exists in local dev (where onUploadCompleted
-      // does not fire) and acts as a safe no-op duplicate in production
-      // (the endpoint uses onConflictDoNothing).
-      try {
-        await fetch("/api/upload/record", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            url: newBlob.url,
-            pathname: newBlob.pathname,
-            contentType: file.type,
-            size: file.size,
-          }),
-        });
-      } catch {
-        // Non-fatal: in production onUploadCompleted handles this.
-        // Log but don't block the user.
-        console.warn("Failed to save upload record via fallback endpoint");
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data.error || "Failed to get upload URL");
       }
 
-      setUploadedUrl(newBlob.url);
+      const { presignedUrl, cdnUrl } = await res.json();
+
+      // 2. Upload directly to S3 via presigned URL
+      const uploadRes = await fetch(presignedUrl, {
+        method: "PUT",
+        headers: { "Content-Type": file.type },
+        body: file,
+      });
+
+      if (!uploadRes.ok) {
+        throw new Error("Failed to upload to storage");
+      }
+
       toast.success("Image uploaded successfully");
+
+      // 3. Navigate to editor with the CDN URL
+      const imageId = cdnUrl.split("/").pop()?.split(".")[0];
+      if (imageId) {
+        router.push(`/editor/${imageId}`);
+      } else {
+        router.refresh();
+      }
     } catch (error) {
       toast.error((error as Error).message || "Upload failed");
     } finally {
@@ -91,15 +102,6 @@ export function ImageDropzone() {
           </div>
         )}
       </div>
-      {uploadedUrl && (
-        <div className="mt-4">
-          <img
-            src={uploadedUrl}
-            alt="Uploaded"
-            className="max-h-64 rounded-lg mx-auto"
-          />
-        </div>
-      )}
     </div>
   );
 }

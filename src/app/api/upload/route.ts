@@ -1,10 +1,12 @@
-import { handleUpload, type HandleUploadBody } from "@vercel/blob/client";
-import { head } from "@vercel/blob";
+"use server";
+
 import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { db } from "@/lib/db";
 import { images } from "@/lib/db/schema";
+import { createPresignedUploadUrl } from "@/lib/s3";
+import { getCdnUrl } from "@/lib/cdn";
 
 export async function POST(request: Request): Promise<NextResponse> {
   const session = await auth.api.getSession({
@@ -14,38 +16,51 @@ export async function POST(request: Request): Promise<NextResponse> {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const body = (await request.json()) as HandleUploadBody;
-
   try {
-    const jsonResponse = await handleUpload({
-      body,
-      request,
-      onBeforeGenerateToken: async () => {
-        return {
-          allowedContentTypes: ["image/jpeg", "image/png", "image/webp"],
-          maximumSizeInBytes: 25 * 1024 * 1024, // 25MB
-          tokenPayload: JSON.stringify({ userId: session.user.id }),
-        };
-      },
-      // NOTE: onUploadCompleted is called by Vercel's webhook after the blob is stored.
-      // This does NOT fire in local development (localhost is not reachable by Vercel).
-      // The client-side fallback at /api/upload/record handles local dev DB inserts.
-      // In production, BOTH may fire -- the record endpoint uses an upsert-like pattern
-      // (insert with onConflictDoNothing on url) to avoid duplicates.
-      onUploadCompleted: async ({ blob, tokenPayload }) => {
-        const { userId } = JSON.parse(tokenPayload!);
-        // PutBlobResult does not include size; fetch it via head()
-        const blobDetails = await head(blob.url);
-        await db.insert(images).values({
-          userId,
-          url: blob.url,
-          pathname: blob.pathname,
-          contentType: blob.contentType,
-          size: blobDetails.size,
-        });
-      },
+    const { fileName, contentType, size } = await request.json();
+
+    if (!fileName || !contentType) {
+      return NextResponse.json(
+        { error: "fileName and contentType are required" },
+        { status: 400 }
+      );
+    }
+
+    // Validate content type
+    const allowedTypes = ["image/jpeg", "image/png", "image/webp"];
+    if (!allowedTypes.includes(contentType)) {
+      return NextResponse.json(
+        { error: "Only JPEG, PNG, and WebP images are allowed" },
+        { status: 400 }
+      );
+    }
+
+    // Validate size (25MB)
+    if (size && size > 25 * 1024 * 1024) {
+      return NextResponse.json(
+        { error: "File must be under 25MB" },
+        { status: 400 }
+      );
+    }
+
+    // Get presigned S3 upload URL
+    const { presignedUrl, key } = await createPresignedUploadUrl(
+      contentType,
+      fileName
+    );
+
+    const cdnUrl = getCdnUrl(key);
+
+    // Save image record to DB
+    await db.insert(images).values({
+      userId: session.user.id,
+      url: cdnUrl,
+      pathname: key,
+      contentType,
+      size: size || 0,
     });
-    return NextResponse.json(jsonResponse);
+
+    return NextResponse.json({ presignedUrl, cdnUrl, key });
   } catch (error) {
     return NextResponse.json(
       { error: (error as Error).message },
