@@ -32,14 +32,21 @@ export async function getCreditBalance(userId: string): Promise<number> {
   return rows[0]?.balance ?? 0;
 }
 
+/** Admin user IDs bypass credit checks */
+const ADMIN_IDS = (process.env.ADMIN_USER_IDS || "").split(",").filter(Boolean);
+
 /**
  * Atomically check the user has enough credits and deduct.
+ * Admin users bypass credit checks entirely.
  * Throws if insufficient balance.
  */
 export async function checkAndDeductCredits(
   userId: string,
   action: AiAction
 ): Promise<void> {
+  // Admin bypass
+  if (ADMIN_IDS.includes(userId)) return;
+
   const cost = CREDIT_COSTS[action];
 
   // Ensure credit balance record exists (Free tier: 50 credits)
