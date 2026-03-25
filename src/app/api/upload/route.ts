@@ -51,16 +51,19 @@ export async function POST(request: Request): Promise<NextResponse> {
 
     const cdnUrl = getCdnUrl(key);
 
-    // Save image record to DB
-    await db.insert(images).values({
-      userId: session.user.id,
-      url: cdnUrl,
-      pathname: key,
-      contentType,
-      size: size || 0,
-    });
+    // Save image record to DB and return the generated ID
+    const [inserted] = await db
+      .insert(images)
+      .values({
+        userId: session.user.id,
+        url: cdnUrl,
+        pathname: key,
+        contentType,
+        size: size || 0,
+      })
+      .returning({ id: images.id });
 
-    return NextResponse.json({ presignedUrl, cdnUrl, key });
+    return NextResponse.json({ presignedUrl, cdnUrl, key, imageId: inserted.id });
   } catch (error) {
     return NextResponse.json(
       { error: (error as Error).message },

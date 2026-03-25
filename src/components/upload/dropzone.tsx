@@ -38,7 +38,7 @@ export function ImageDropzone() {
         throw new Error(data.error || "Failed to get upload URL");
       }
 
-      const { presignedUrl, cdnUrl } = await res.json();
+      const { presignedUrl, imageId } = await res.json();
 
       // 2. Upload directly to S3 via presigned URL
       const uploadRes = await fetch(presignedUrl, {
@@ -53,13 +53,8 @@ export function ImageDropzone() {
 
       toast.success("Image uploaded successfully");
 
-      // 3. Navigate to editor with the CDN URL
-      const imageId = cdnUrl.split("/").pop()?.split(".")[0];
-      if (imageId) {
-        router.push(`/editor/${imageId}`);
-      } else {
-        router.refresh();
-      }
+      // 3. Navigate to editor with DB image ID
+      router.push(`/editor/${imageId}`);
     } catch (error) {
       toast.error((error as Error).message || "Upload failed");
     } finally {
