@@ -136,7 +136,13 @@ Plans:
   3. User can purchase additional credits as a one-time top-up
   4. User can view a usage dashboard showing remaining credits and consumption history
   5. User can toggle dark mode and the entire application renders correctly in both themes
-**Plans**: TBD
+**Plans:** 4 plans
+
+Plans:
+- [x] 07-01-PLAN.md — Credit system foundation: DB schema (plans, subscriptions, credit_balances, credit_transactions), Stripe client, credit utilities, webhook handler, billing actions, credit gating on all AI actions
+- [ ] 07-02-PLAN.md — Subscription UI: pricing page, plan selection, Stripe checkout flow, customer portal
+- [ ] 07-03-PLAN.md — Usage dashboard: credit balance display, transaction history, credit purchase UI
+- [ ] 07-04-PLAN.md — Dark mode: theme toggle, CSS variables, full application dark theme support
 **UI hint**: yes
 
 ## Progress
@@ -152,4 +158,4 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 | 4. AI Background & Object Removal | 0/4 | Planning complete | - |
 | 5. AI Text Replacement | 0/3 | Planning complete | - |
 | 6. AI Upscaling & Style Transfer | 0/0 | Not started | - |
-| 7. Billing, Credits & Polish | 0/0 | Not started | - |
+| 7. Billing, Credits & Polish | 1/4 | In Progress | - |
