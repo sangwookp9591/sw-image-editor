@@ -2,9 +2,16 @@ import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 import { stripe } from "@/lib/stripe";
 import { db } from "@/lib/db";
-import { subscriptions, plans } from "@/lib/db/schema";
-import { addCredits } from "@/lib/credits";
-import { eq } from "drizzle-orm";
+import {
+  subscriptions,
+  plans,
+  creditBalances,
+  creditTransactions,
+} from "@/lib/db/schema";
+import { eq, sql } from "drizzle-orm";
+
+/** Free tier monthlyCredits allowance (D-06, D-08) */
+const FREE_TIER_CREDITS = 50;
 
 export async function POST(req: NextRequest) {
   const body = await req.text();
@@ -58,18 +65,45 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  return NextResponse.json({ received: true });
+  return new Response("OK", { status: 200 });
 }
 
+/**
+ * Handle checkout.session.completed
+ *
+ * - subscription mode: create/update subscription, grant initial monthlyCredits
+ * - payment mode: add to bonusCredits (non-expiring per D-14)
+ */
 async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
   const userId = session.metadata?.userId;
   if (!userId) return;
 
-  // Handle one-time credit purchase
+  // Handle one-time credit top-up -- credits go to bonusCredits (non-expiring per D-14)
   if (session.mode === "payment") {
-    const creditsAmount = parseInt(session.metadata?.credits || "0", 10);
-    if (creditsAmount > 0) {
-      await addCredits(userId, creditsAmount, "purchase", "Credit pack purchase");
+    const bonusCredits = parseInt(session.metadata?.credits || "0", 10);
+    if (bonusCredits > 0) {
+      // Add to bonusCredits balance (upsert)
+      await db
+        .insert(creditBalances)
+        .values({
+          userId,
+          balance: bonusCredits,
+          updatedAt: new Date(),
+        })
+        .onConflictDoUpdate({
+          target: creditBalances.userId,
+          set: {
+            balance: sql`${creditBalances.balance} + ${bonusCredits}`,
+            updatedAt: new Date(),
+          },
+        });
+
+      await db.insert(creditTransactions).values({
+        userId,
+        amount: bonusCredits,
+        type: "top_up",
+        description: `Credit top-up: ${bonusCredits} bonusCredits purchased`,
+      });
     }
     return;
   }
@@ -123,16 +157,38 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
       });
     }
 
-    // Grant initial credits
-    await addCredits(
+    // Set initial monthlyCredits via idempotent SET (not increment)
+    const monthlyCredits = plan[0].credits;
+    await db
+      .insert(creditBalances)
+      .values({
+        userId,
+        balance: monthlyCredits,
+        updatedAt: new Date(),
+      })
+      .onConflictDoUpdate({
+        target: creditBalances.userId,
+        set: {
+          balance: monthlyCredits,
+          updatedAt: new Date(),
+        },
+      });
+
+    await db.insert(creditTransactions).values({
       userId,
-      plan[0].credits,
-      "grant",
-      `Subscription started: ${plan[0].name}`
-    );
+      amount: monthlyCredits,
+      type: "plan_change",
+      description: `Subscription started: ${plan[0].name} (${monthlyCredits} monthlyCredits)`,
+    });
   }
 }
 
+/**
+ * Handle invoice.paid -- monthly credit reset (D-07)
+ *
+ * Uses idempotent SET (not increment) to prevent double-credit on webhook retry (Pitfall 3).
+ * Resets monthlyCredits to the plan allowance.
+ */
 async function handleInvoicePaid(invoice: Stripe.Invoice) {
   // Skip the first invoice (handled by checkout.session.completed)
   if (invoice.billing_reason === "subscription_create") return;
@@ -157,16 +213,36 @@ async function handleInvoicePaid(invoice: Stripe.Invoice) {
     .limit(1);
   if (plan.length === 0) return;
 
-  // Grant monthly credits for renewal
-  await addCredits(
-    sub[0].userId,
-    plan[0].credits,
-    "grant",
-    `Monthly renewal: ${plan[0].name}`
-  );
+  // Idempotent SET for monthlyCredits reset -- prevents double-credit on retry
+  const monthlyCredits = plan[0].credits;
+  await db
+    .update(creditBalances)
+    .set({
+      balance: monthlyCredits,
+      updatedAt: new Date(),
+    })
+    .where(eq(creditBalances.userId, sub[0].userId));
+
+  await db.insert(creditTransactions).values({
+    userId: sub[0].userId,
+    amount: monthlyCredits,
+    type: "monthly_reset",
+    description: `Monthly reset: ${plan[0].name} (${monthlyCredits} monthlyCredits)`,
+  });
 }
 
+/**
+ * Handle customer.subscription.updated -- plan changes
+ *
+ * Updates subscription status and adjusts monthlyCredits if plan changed.
+ */
 async function handleSubscriptionUpdated(subscription: Stripe.Subscription) {
+  const existingSub = await db
+    .select()
+    .from(subscriptions)
+    .where(eq(subscriptions.stripeSubscriptionId, subscription.id))
+    .limit(1);
+
   await db
     .update(subscriptions)
     .set({
@@ -177,9 +253,40 @@ async function handleSubscriptionUpdated(subscription: Stripe.Subscription) {
       updatedAt: new Date(),
     })
     .where(eq(subscriptions.stripeSubscriptionId, subscription.id));
+
+  // If plan changed, adjust monthlyCredits to new plan allowance
+  if (existingSub.length > 0) {
+    const plan = await db
+      .select()
+      .from(plans)
+      .where(eq(plans.id, existingSub[0].planId))
+      .limit(1);
+
+    if (plan.length > 0) {
+      const monthlyCredits = plan[0].credits;
+      await db
+        .update(creditBalances)
+        .set({
+          balance: monthlyCredits,
+          updatedAt: new Date(),
+        })
+        .where(eq(creditBalances.userId, existingSub[0].userId));
+    }
+  }
 }
 
+/**
+ * Handle customer.subscription.deleted -- revert to free tier (D-06, D-08)
+ *
+ * Sets plan to free, monthlyCredits to FREE_TIER_CREDITS (50).
+ */
 async function handleSubscriptionDeleted(subscription: Stripe.Subscription) {
+  const sub = await db
+    .select()
+    .from(subscriptions)
+    .where(eq(subscriptions.stripeSubscriptionId, subscription.id))
+    .limit(1);
+
   await db
     .update(subscriptions)
     .set({
@@ -187,4 +294,23 @@ async function handleSubscriptionDeleted(subscription: Stripe.Subscription) {
       updatedAt: new Date(),
     })
     .where(eq(subscriptions.stripeSubscriptionId, subscription.id));
+
+  // Revert monthlyCredits to free tier (50 credits per D-06, D-08)
+  if (sub.length > 0) {
+    const monthlyCredits = FREE_TIER_CREDITS;
+    await db
+      .update(creditBalances)
+      .set({
+        balance: monthlyCredits,
+        updatedAt: new Date(),
+      })
+      .where(eq(creditBalances.userId, sub[0].userId));
+
+    await db.insert(creditTransactions).values({
+      userId: sub[0].userId,
+      amount: -monthlyCredits,
+      type: "plan_change",
+      description: `Subscription canceled: reverted to free tier (${monthlyCredits} monthlyCredits)`,
+    });
+  }
 }
