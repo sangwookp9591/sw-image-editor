@@ -40,7 +40,7 @@ export async function POST(request: Request): Promise<NextResponse> {
     );
 
     const result = await generateText({
-      model: google("gemini-2.5-flash-image"),
+      model: google("gemini-3.1-flash-image-preview"),
       messages: [
         {
           role: "user",
