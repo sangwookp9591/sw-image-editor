@@ -2,7 +2,7 @@ import { create } from "zustand";
 import { temporal } from "zundo";
 import type { TextRegion } from "@/lib/ai/ocr";
 
-export type ActiveTool = "select" | "crop" | "resize" | "pan" | "bg-remove" | "object-eraser" | "text-replace" | "upscale" | "style-transfer";
+export type ActiveTool = "select" | "crop" | "resize" | "pan" | "bg-remove" | "object-eraser" | "text-replace" | "upscale" | "style-transfer" | "layout";
 export type SaveStatus = "idle" | "saving" | "saved" | "error";
 
 interface EditorState {

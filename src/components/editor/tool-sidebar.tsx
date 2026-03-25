@@ -1,6 +1,6 @@
 "use client";
 
-import { MousePointer2, Crop, Maximize2, Hand, ImageMinus, Eraser, Type, ArrowUpFromLine, Palette } from "lucide-react";
+import { MousePointer2, Crop, Maximize2, Hand, ImageMinus, Eraser, Type, ArrowUpFromLine, Palette, LayoutGrid } from "lucide-react";
 import {
   Tooltip,
   TooltipContent,
@@ -14,6 +14,7 @@ const TOOLS: { id: ActiveTool; label: string; icon: React.ComponentType<{ classN
   { id: "select", label: "Select", icon: MousePointer2 },
   { id: "crop", label: "Crop", icon: Crop },
   { id: "resize", label: "Resize", icon: Maximize2 },
+  { id: "layout", label: "SNS Layout", icon: LayoutGrid },
   { id: "pan", label: "Pan", icon: Hand },
 ];
 
