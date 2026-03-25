@@ -72,9 +72,13 @@ export async function removeObject(
   await checkAndDeductCredits(session.user.id, "removeObject");
 
   // Use Gemini image editing to remove objects/text from the masked region
-  const imageContent = base64Image.includes(",")
-    ? base64Image.split(",")[1]!
-    : base64Image;
+  // Pass data URIs directly to avoid Buffer serialization issues with Next.js Server Actions
+  const imageDataUri = base64Image.includes(",")
+    ? base64Image
+    : `data:image/png;base64,${base64Image}`;
+  const maskDataUri = base64Mask.includes(",")
+    ? base64Mask
+    : `data:image/png;base64,${base64Mask}`;
 
   const result = await generateText({
     model: google("gemini-2.5-flash"),
@@ -84,20 +88,11 @@ export async function removeObject(
         content: [
           {
             type: "image",
-            image: Buffer.from(imageContent, "base64"),
-
-
+            image: new URL(imageDataUri),
           },
           {
             type: "image",
-            image: Buffer.from(
-              base64Mask.includes(",")
-                ? base64Mask.split(",")[1]!
-                : base64Mask,
-              "base64"
-            ),
-
-
+            image: new URL(maskDataUri),
           },
           {
             type: "text",

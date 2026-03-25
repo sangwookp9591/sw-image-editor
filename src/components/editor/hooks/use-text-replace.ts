@@ -4,7 +4,7 @@ import { useCallback, type RefObject } from "react";
 import type { Canvas as FabricCanvas } from "fabric";
 import { toast } from "sonner";
 import { useEditorStore } from "./use-editor-store";
-import { detectText, removeObject, translateText } from "@/app/actions/ai-image";
+import { detectText, translateText } from "@/app/actions/ai-image";
 import { extractTextStyle, createMaskFromBbox } from "@/lib/ai/text-style";
 import type { TextRegion } from "@/lib/ai/ocr";
 
@@ -91,7 +91,17 @@ export function useTextReplace(fabricRef: RefObject<FabricCanvas | null>) {
           imageHeight,
           0.1
         );
-        const { cdnUrl } = await removeObject(base64Image, maskBase64);
+        // Use API route instead of Server Action to avoid serialization limits with large images
+        const res = await fetch("/api/ai/remove-object", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ base64Image, base64Mask: maskBase64 }),
+        });
+        if (!res.ok) {
+          const err = await res.json();
+          throw new Error(err.error || "Failed to remove text");
+        }
+        const { cdnUrl } = await res.json();
 
         // Step 3: Load inpainted result onto canvas
         const fabric = await import("fabric");
