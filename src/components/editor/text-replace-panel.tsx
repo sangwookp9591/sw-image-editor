@@ -48,10 +48,13 @@ export function TextReplacePanel({ fabricRef }: TextReplacePanelProps) {
   const setSelectedRegionIndex = useEditorStore((s) => s.setSelectedRegionIndex);
   const isProcessing = useEditorStore((s) => s.isProcessing);
 
+  const [batchLang, setBatchLang] = useState<string>("");
+
   const {
     handleDetectText,
     handleReplaceText,
     handleTranslateAndReplace,
+    handleTranslateAll,
     handleApplyText,
     handleCancelReplace,
   } = useTextReplace(fabricRef);
@@ -78,8 +81,40 @@ export function TextReplacePanel({ fabricRef }: TextReplacePanelProps) {
     return (
       <div className="space-y-4">
         <p className="text-sm text-muted-foreground">
-          {textRegions.length} region(s) detected. Select one to replace or translate.
+          {textRegions.length} region(s) detected.
         </p>
+
+        {/* Translate All */}
+        <div className="space-y-2 rounded-md border p-3 bg-accent/30">
+          <Label className="text-xs font-semibold">Translate All Regions</Label>
+          <div className="flex gap-2">
+            <Select
+              value={batchLang}
+              onValueChange={(val) => setBatchLang(val ?? "")}
+            >
+              <SelectTrigger className="flex-1 h-8 text-sm">
+                <SelectValue placeholder="Language" />
+              </SelectTrigger>
+              <SelectContent>
+                {LANGUAGES.map((lang) => (
+                  <SelectItem key={lang.value} value={lang.value}>
+                    {lang.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            <Button
+              size="sm"
+              className="whitespace-nowrap"
+              disabled={isProcessing || !batchLang}
+              onClick={() => handleTranslateAll(batchLang)}
+            >
+              {isProcessing ? "Translating..." : "Translate All"}
+            </Button>
+          </div>
+        </div>
+
+        <p className="text-xs text-muted-foreground">Or select one region to replace individually:</p>
 
         {/* Region list */}
         <div className="max-h-48 overflow-y-auto space-y-1">

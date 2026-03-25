@@ -279,10 +279,184 @@ export function useTextReplace(fabricRef: RefObject<FabricCanvas | null>) {
     canvas.renderAll();
   }, [fabricRef]);
 
+  const handleTranslateAll = useCallback(
+    async (targetLang: string) => {
+      const canvas = fabricRef.current;
+      if (!canvas) return;
+
+      const { textRegions, isProcessing, setIsProcessing } =
+        useEditorStore.getState();
+      if (isProcessing || textRegions.length === 0) return;
+
+      setIsProcessing(true);
+      let successCount = 0;
+      let failCount = 0;
+
+      try {
+        for (let i = 0; i < textRegions.length; i++) {
+          const region = textRegions[i];
+          if (!region) continue;
+
+          try {
+            toast.info(
+              `Translating ${i + 1}/${textRegions.length}: "${region.text}"...`
+            );
+
+            // Translate
+            const { translatedText } = await translateText(
+              region.text,
+              targetLang
+            );
+
+            // Inpaint: export canvas hiding existing text-replace objects
+            const objects = canvas.getObjects();
+            const taggedObjects = objects.filter(
+              (obj) =>
+                (obj as unknown as Record<string, unknown>)[TEXT_REPLACE_TAG]
+            );
+            taggedObjects.forEach((obj) => (obj.visible = false));
+
+            const vpt = canvas.viewportTransform;
+            const savedVpt = [...vpt] as typeof vpt;
+            canvas.setViewportTransform([1, 0, 0, 1, 0, 0]);
+            const base64Image = canvas.toDataURL({
+              format: "png",
+              multiplier: 1,
+            });
+            canvas.setViewportTransform(savedVpt);
+            taggedObjects.forEach((obj) => (obj.visible = true));
+
+            const imageWidth = canvas.getWidth();
+            const imageHeight = canvas.getHeight();
+
+            const maskBase64 = createMaskFromBbox(
+              region.vertices,
+              imageWidth,
+              imageHeight,
+              0.1
+            );
+
+            // Call inpaint API
+            const res = await fetch("/api/ai/remove-object", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                base64Image,
+                base64Mask: maskBase64,
+              }),
+            });
+            if (!res.ok) {
+              const err = await res.json();
+              throw new Error(err.error || "Inpainting failed");
+            }
+            const { cdnUrl } = await res.json();
+
+            // Load inpainted result
+            const fabric = await import("fabric");
+            const resultImg = await fabric.FabricImage.fromURL(cdnUrl, {
+              crossOrigin: "anonymous",
+            });
+
+            canvas.clear();
+            canvas.setDimensions({
+              width: resultImg.width!,
+              height: resultImg.height!,
+            });
+            canvas.add(resultImg);
+
+            // Extract style and create IText
+            const style = extractTextStyle(region.vertices);
+            const fontFamily =
+              style.fontCategory === "serif"
+                ? "Georgia, 'Times New Roman', serif"
+                : style.fontCategory === "monospace"
+                  ? "'Courier New', monospace"
+                  : "Arial, Helvetica, sans-serif";
+
+            const itext = new fabric.IText(translatedText, {
+              left: region.boundingBox.x,
+              top: region.boundingBox.y,
+              fontSize: style.fontSize,
+              fill: "#000000",
+              angle: style.angle,
+              fontFamily,
+              editable: true,
+              originX: "left",
+              originY: "top",
+              skewX: style.skewX,
+              skewY: style.skewY,
+            });
+            (itext as unknown as Record<string, unknown>)[TEXT_REPLACE_TAG] =
+              true;
+
+            canvas.add(itext);
+
+            // Auto-fit
+            const renderedWidth = itext.getScaledWidth();
+            const targetWidth = region.boundingBox.width * 1.15;
+            if (renderedWidth > targetWidth) {
+              const scale = targetWidth / renderedWidth;
+              itext.set({ fontSize: Math.round(style.fontSize * scale) });
+            }
+
+            canvas.renderAll();
+
+            // Flatten after each replacement so next iteration sees clean canvas
+            canvas.setViewportTransform([1, 0, 0, 1, 0, 0]);
+            const flatDataUrl = canvas.toDataURL({
+              format: "png",
+              multiplier: 1,
+            });
+            canvas.setViewportTransform(savedVpt);
+
+            const flatImg = await fabric.FabricImage.fromURL(flatDataUrl);
+            canvas.clear();
+            canvas.setDimensions({
+              width: flatImg.width!,
+              height: flatImg.height!,
+            });
+            canvas.add(flatImg);
+            canvas.renderAll();
+
+            successCount++;
+          } catch (err) {
+            failCount++;
+            console.error(`Failed to translate region "${region.text}":`, err);
+          }
+        }
+
+        // Save undo snapshot
+        const { setCanvasJson, setTextRegions, setSelectedRegionIndex } =
+          useEditorStore.getState();
+        setCanvasJson(JSON.stringify(canvas.toJSON()));
+        setTextRegions([]);
+        setSelectedRegionIndex(null);
+
+        if (failCount === 0) {
+          toast.success(
+            `All ${successCount} regions translated to ${targetLang}`
+          );
+        } else {
+          toast.warning(
+            `${successCount} translated, ${failCount} failed`
+          );
+        }
+      } catch (error) {
+        toast.error(
+          error instanceof Error ? error.message : "Batch translation failed"
+        );
+      } finally {
+        setIsProcessing(false);
+      }
+    },
+    [fabricRef]
+  );
+
   return {
     handleDetectText,
     handleReplaceText,
     handleTranslateAndReplace,
+    handleTranslateAll,
     handleApplyText,
     handleCancelReplace,
   };
