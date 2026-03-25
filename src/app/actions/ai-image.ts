@@ -139,7 +139,8 @@ export async function upscaleImage(
   base64Image: string,
   scale: 2 | 4
 ): Promise<{ cdnUrl: string }> {
-  await requireAuth();
+  const session = await requireAuth();
+  await checkAndDeductCredits(session.user.id, "upscaleImage");
 
   try {
     const imageBuffer = Buffer.from(
@@ -177,7 +178,8 @@ export async function styleTransfer(
   style: string,
   intensity: number
 ): Promise<{ cdnUrl: string }> {
-  await requireAuth();
+  const session = await requireAuth();
+  await checkAndDeductCredits(session.user.id, "styleTransfer");
 
   try {
     const imageBuffer = Buffer.from(

@@ -11,6 +11,8 @@ export const CREDIT_COSTS = {
   generateBackground: 3,
   detectText: 1,
   translateText: 1,
+  upscaleImage: 2,
+  styleTransfer: 2,
 } as const;
 
 export type AiAction = keyof typeof CREDIT_COSTS;
