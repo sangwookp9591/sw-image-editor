@@ -7,6 +7,7 @@ import { ArrowLeft, Undo2, Redo2, Download, ZoomIn, ZoomOut, Save, Loader2, Chec
 import { Button } from "@/components/ui/button";
 import { useEditorStore, type SaveStatus } from "./hooks/use-editor-store";
 import { ExportModal } from "./export-modal";
+import { ThemeToggle } from "@/components/theme/theme-toggle";
 
 interface EditorToolbarProps {
   fabricRef: RefObject<FabricCanvas | null>;
@@ -110,6 +111,8 @@ export function EditorToolbar({ fabricRef, onSave, saveStatus }: EditorToolbarPr
         open={exportOpen}
         onOpenChange={setExportOpen}
       />
+
+      <ThemeToggle />
     </div>
   );
 }
