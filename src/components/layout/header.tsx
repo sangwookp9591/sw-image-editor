@@ -10,6 +10,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { signOut } from "@/lib/auth-client";
+import { ThemeToggle } from "@/components/theme/theme-toggle";
 
 interface HeaderProps {
   user: {
@@ -33,6 +34,7 @@ export function Header({ user, onMenuClick }: HeaderProps) {
         <Menu className="h-5 w-5" />
       </Button>
       <div className="flex-1" />
+      <ThemeToggle />
       <DropdownMenu>
         <DropdownMenuTrigger
           className="cursor-pointer rounded-full outline-none focus-visible:ring-2 focus-visible:ring-ring"
