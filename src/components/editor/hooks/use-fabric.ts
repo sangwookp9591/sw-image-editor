@@ -46,7 +46,7 @@ export function useFabric(
         useEditorStore.temporal.getState().clear();
       } else {
         // NEW IMAGE: load from URL
-        const img = await fabric.FabricImage.fromURL(imageUrl);
+        const img = await fabric.FabricImage.fromURL(imageUrl, { crossOrigin: "anonymous" });
 
         if (!mounted) {
           canvas.dispose();

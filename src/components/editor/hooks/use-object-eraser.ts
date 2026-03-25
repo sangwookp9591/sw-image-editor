@@ -126,7 +126,7 @@ export function useObjectEraser(fabricRef: RefObject<FabricCanvas | null>) {
 
       // Load result
       const fabric = await import("fabric");
-      const resultImg = await fabric.FabricImage.fromURL(cdnUrl);
+      const resultImg = await fabric.FabricImage.fromURL(cdnUrl, { crossOrigin: "anonymous" });
 
       // Scale result to canvas content dimensions
       const scaleX = canvas.getWidth() / (resultImg.width ?? 1);

@@ -95,7 +95,7 @@ export function useTextReplace(fabricRef: RefObject<FabricCanvas | null>) {
 
         // Step 3: Load inpainted result onto canvas
         const fabric = await import("fabric");
-        const resultImg = await fabric.FabricImage.fromURL(cdnUrl);
+        const resultImg = await fabric.FabricImage.fromURL(cdnUrl, { crossOrigin: "anonymous" });
 
         canvas.clear();
         canvas.setDimensions({
