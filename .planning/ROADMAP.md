@@ -123,12 +123,12 @@ Plans:
   2. User can upscale an image to 4x resolution
   3. User can convert a photo to any of the preset styles (illustration, anime, watercolor, oil painting, pixel art)
   4. User can adjust the style transfer intensity with a slider to control how strongly the style is applied
-**Plans:** 3 plans
+**Plans:** 1/3 plans executed
 
 Plans:
-- [ ] 06-01-PLAN.md — Server actions (upscaleImage, transferStyle), ActiveTool type extension
-- [ ] 06-02-PLAN.md — Upscale hook, UpscalePanel (2x/4x buttons), sidebar + properties wiring
-- [ ] 06-03-PLAN.md — Style transfer hook with preset prompts, StyleTransferPanel (style cards, intensity slider), sidebar + properties wiring
+- [x] 06-01-PLAN.md — Server actions (upscaleImage, transferStyle), ActiveTool type extension
+- [x] 06-02-PLAN.md — Upscale hook, UpscalePanel (2x/4x buttons), sidebar + properties wiring
+- [x] 06-03-PLAN.md — Style transfer hook with preset prompts, StyleTransferPanel (style cards, intensity slider), sidebar + properties wiring
 **UI hint**: yes
 
 ### Phase 7: Billing, Credits & Polish
@@ -156,5 +156,5 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 | 3. Project Management | 4/4 | Complete   | 2026-03-24 |
 | 4. AI Background & Object Removal | 0/4 | Planning complete | - |
 | 5. AI Text Replacement | 0/3 | Planning complete | - |
-| 6. AI Upscaling & Style Transfer | 0/3 | Planning complete | - |
+| 6. AI Upscaling & Style Transfer | 1/3 | In Progress|  |
 | 7. Billing, Credits & Polish | 0/0 | Not started | - |
