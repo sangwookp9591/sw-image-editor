@@ -18,6 +18,14 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  async rewrites() {
+    return [
+      {
+        source: "/cdn/:path*",
+        destination: "https://d2uec4r3coj0v1.cloudfront.net/:path*",
+      },
+    ];
+  },
 };
 
 export default nextConfig;

@@ -25,5 +25,10 @@ export default async function EditorPage({
 
   if (!image) notFound();
 
-  return <EditorLoader imageUrl={image.url} imageName={image.pathname} />;
+  // Convert full CDN URLs to /cdn/ proxy path to avoid CORS issues
+  const imageUrl = image.url.includes("d2uec4r3coj0v1.cloudfront.net")
+    ? image.url.replace("https://d2uec4r3coj0v1.cloudfront.net", "/cdn")
+    : image.url;
+
+  return <EditorLoader imageUrl={imageUrl} imageName={image.pathname} />;
 }

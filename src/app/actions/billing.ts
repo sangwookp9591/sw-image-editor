@@ -23,7 +23,7 @@ const CREDIT_PACKS = {
   100: 3500, // 100 credits = $35.00
 } as const;
 
-export type CreditPackSize = keyof typeof CREDIT_PACKS;
+type CreditPackSize = keyof typeof CREDIT_PACKS;
 
 /**
  * Create a Stripe Checkout session for a subscription plan.

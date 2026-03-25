@@ -5,7 +5,7 @@ import { creditBalances, creditTransactions } from "@/lib/db/schema";
 import { eq, sql } from "drizzle-orm";
 
 /** Credit cost per AI action */
-export const CREDIT_COSTS = {
+const CREDIT_COSTS = {
   removeBackground: 2,
   removeObject: 3,
   generateBackground: 3,
@@ -15,7 +15,7 @@ export const CREDIT_COSTS = {
   styleTransfer: 2,
 } as const;
 
-export type AiAction = keyof typeof CREDIT_COSTS;
+type AiAction = keyof typeof CREDIT_COSTS;
 
 /** Get the current credit balance for a user. Returns 0 if no record exists. */
 export async function getCreditBalance(userId: string): Promise<number> {
@@ -37,6 +37,16 @@ export async function checkAndDeductCredits(
   action: AiAction
 ): Promise<void> {
   const cost = CREDIT_COSTS[action];
+
+  // Ensure credit balance record exists (Free tier: 50 credits)
+  await db
+    .insert(creditBalances)
+    .values({
+      userId,
+      balance: 50,
+      updatedAt: new Date(),
+    })
+    .onConflictDoNothing({ target: creditBalances.userId });
 
   // Atomic deduct: UPDATE ... SET balance = balance - cost WHERE balance >= cost
   const result = await db
