@@ -284,162 +284,47 @@ export function useTextReplace(fabricRef: RefObject<FabricCanvas | null>) {
       const canvas = fabricRef.current;
       if (!canvas) return;
 
-      const { textRegions, isProcessing, setIsProcessing } =
-        useEditorStore.getState();
-      if (isProcessing || textRegions.length === 0) return;
+      const { isProcessing, setIsProcessing } = useEditorStore.getState();
+      if (isProcessing) return;
 
       setIsProcessing(true);
-      let successCount = 0;
-      let failCount = 0;
-
       try {
-        const fabric = await import("fabric");
+        toast.info("Translating entire image...");
 
-        for (let i = 0; i < textRegions.length; i++) {
-          const region = textRegions[i];
-          if (!region) continue;
+        // Export canvas at 1:1 scale
+        const vpt = canvas.viewportTransform;
+        const savedVpt = [...vpt] as typeof vpt;
+        canvas.setViewportTransform([1, 0, 0, 1, 0, 0]);
+        const base64Image = canvas.toDataURL({ format: "png", multiplier: 1 });
+        canvas.setViewportTransform(savedVpt);
 
-          try {
-            toast.info(
-              `${i + 1}/${textRegions.length}: "${region.text}" → translating...`
-            );
+        // Single API call: Gemini edits all text in the image at once
+        const res = await fetch("/api/ai/translate-image", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ base64Image, targetLang }),
+        });
 
-            // 1. Translate via Gemini
-            const { translatedText } = await translateText(
-              region.text,
-              targetLang
-            );
-
-            // 2. Export canvas (hide any existing tagged objects)
-            const objects = canvas.getObjects();
-            const taggedObjects = objects.filter(
-              (obj) =>
-                (obj as unknown as Record<string, unknown>)[TEXT_REPLACE_TAG]
-            );
-            taggedObjects.forEach((obj) => (obj.visible = false));
-
-            const vpt = canvas.viewportTransform;
-            const savedVpt = [...vpt] as typeof vpt;
-            canvas.setViewportTransform([1, 0, 0, 1, 0, 0]);
-            const base64Image = canvas.toDataURL({ format: "png", multiplier: 1 });
-            canvas.setViewportTransform(savedVpt);
-            taggedObjects.forEach((obj) => (obj.visible = true));
-
-            // 3. Create mask and inpaint to remove original text
-            const imageWidth = canvas.getWidth();
-            const imageHeight = canvas.getHeight();
-            const maskBase64 = createMaskFromBbox(
-              region.vertices,
-              imageWidth,
-              imageHeight,
-              0.1
-            );
-
-            toast.info(
-              `${i + 1}/${textRegions.length}: removing original text...`
-            );
-
-            const res = await fetch("/api/ai/remove-object", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ base64Image, base64Mask: maskBase64 }),
-            });
-            if (!res.ok) {
-              const err = await res.json();
-              throw new Error(err.error || "Inpainting failed");
-            }
-            const { cdnUrl } = await res.json();
-
-            // 4. Load inpainted result
-            const resultImg = await fabric.FabricImage.fromURL(cdnUrl, {
-              crossOrigin: "anonymous",
-            });
-            canvas.clear();
-            canvas.setDimensions({
-              width: resultImg.width!,
-              height: resultImg.height!,
-            });
-            canvas.add(resultImg);
-
-            // 5. Extract style and render translated text
-            const style = extractTextStyle(region.vertices);
-
-            let textColor = "#000000";
-            try {
-              const tmpCanvas = document.createElement("canvas");
-              const tmpImg = await new Promise<HTMLImageElement>((resolve, reject) => {
-                const img = new Image();
-                img.onload = () => resolve(img);
-                img.onerror = reject;
-                img.src = base64Image;
-              });
-              tmpCanvas.width = tmpImg.naturalWidth;
-              tmpCanvas.height = tmpImg.naturalHeight;
-              const tmpCtx = tmpCanvas.getContext("2d")!;
-              tmpCtx.drawImage(tmpImg, 0, 0);
-              const bbox = region.boundingBox;
-              const sx = Math.max(0, Math.floor(bbox.x));
-              const sy = Math.max(0, Math.floor(bbox.y));
-              const sw = Math.min(Math.ceil(bbox.width), tmpCanvas.width - sx);
-              const sh = Math.min(Math.ceil(bbox.height), tmpCanvas.height - sy);
-              if (sw > 0 && sh > 0) {
-                const imageData = tmpCtx.getImageData(sx, sy, sw, sh);
-                const { extractDominantColor } = await import("@/lib/ai/text-style");
-                textColor = extractDominantColor(imageData);
-              }
-            } catch {
-              // Fall back to black
-            }
-
-            const fontFamily =
-              style.fontCategory === "serif"
-                ? "Georgia, 'Times New Roman', serif"
-                : style.fontCategory === "monospace"
-                  ? "'Courier New', monospace"
-                  : "Arial, Helvetica, sans-serif";
-
-            const itext = new fabric.IText(translatedText, {
-              left: region.boundingBox.x,
-              top: region.boundingBox.y,
-              fontSize: style.fontSize,
-              fill: textColor,
-              angle: style.angle,
-              fontFamily,
-              editable: true,
-              originX: "left",
-              originY: "top",
-              skewX: style.skewX,
-              skewY: style.skewY,
-            });
-            (itext as unknown as Record<string, unknown>)[TEXT_REPLACE_TAG] = true;
-            canvas.add(itext);
-
-            // Auto-fit
-            const renderedWidth = itext.getScaledWidth();
-            const targetWidth = region.boundingBox.width * 1.15;
-            if (renderedWidth > targetWidth) {
-              const scale = targetWidth / renderedWidth;
-              itext.set({ fontSize: Math.round(style.fontSize * scale) });
-            }
-            canvas.renderAll();
-
-            // 6. Flatten so next iteration sees clean canvas
-            canvas.setViewportTransform([1, 0, 0, 1, 0, 0]);
-            const flatDataUrl = canvas.toDataURL({ format: "png", multiplier: 1 });
-            canvas.setViewportTransform(savedVpt);
-
-            const flatImg = await fabric.FabricImage.fromURL(flatDataUrl);
-            canvas.clear();
-            canvas.setDimensions({ width: flatImg.width!, height: flatImg.height! });
-            canvas.add(flatImg);
-            canvas.renderAll();
-
-            successCount++;
-          } catch (err) {
-            failCount++;
-            console.error(`Failed to translate region "${region.text}":`, err);
-          }
+        if (!res.ok) {
+          const err = await res.json();
+          throw new Error(err.error || "Image translation failed");
         }
+
+        const { cdnUrl } = await res.json();
+
+        // Load translated image onto canvas
+        const fabric = await import("fabric");
+        const resultImg = await fabric.FabricImage.fromURL(cdnUrl, {
+          crossOrigin: "anonymous",
+        });
+
+        canvas.clear();
+        canvas.setDimensions({
+          width: resultImg.width!,
+          height: resultImg.height!,
+        });
+        canvas.add(resultImg);
+        canvas.renderAll();
 
         // Save undo snapshot
         const { setCanvasJson, setTextRegions, setSelectedRegionIndex } =
@@ -448,14 +333,10 @@ export function useTextReplace(fabricRef: RefObject<FabricCanvas | null>) {
         setTextRegions([]);
         setSelectedRegionIndex(null);
 
-        if (failCount === 0) {
-          toast.success(`All ${successCount} regions translated to ${targetLang}`);
-        } else {
-          toast.warning(`${successCount} translated, ${failCount} failed`);
-        }
+        toast.success(`Image translated to ${targetLang}`);
       } catch (error) {
         toast.error(
-          error instanceof Error ? error.message : "Batch translation failed"
+          error instanceof Error ? error.message : "Image translation failed"
         );
       } finally {
         setIsProcessing(false);
