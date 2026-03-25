@@ -71,23 +71,54 @@ export async function removeObject(
   const session = await requireAuth();
   await checkAndDeductCredits(session.user.id, "removeObject");
 
-  const imageBuffer = Buffer.from(base64Image.split(",")[1] || base64Image, "base64");
-  const maskBuffer = Buffer.from(base64Mask.split(",")[1] || base64Mask, "base64");
+  // Use Gemini image editing to remove objects/text from the masked region
+  const imageContent = base64Image.includes(",")
+    ? base64Image.split(",")[1]!
+    : base64Image;
 
-  const { image } = await generateImage({
-    model: fal.image("fal-ai/object-removal"),
-    prompt: {
-      text: "",
-      images: [imageBuffer],
-      mask: maskBuffer,
-    },
+  const result = await generateText({
+    model: google("gemini-2.5-flash"),
+    messages: [
+      {
+        role: "user",
+        content: [
+          {
+            type: "image",
+            image: Buffer.from(imageContent, "base64"),
+
+
+          },
+          {
+            type: "image",
+            image: Buffer.from(
+              base64Mask.includes(",")
+                ? base64Mask.split(",")[1]!
+                : base64Mask,
+              "base64"
+            ),
+
+
+          },
+          {
+            type: "text",
+            text: "The second image is a mask where white areas indicate regions to remove. Remove the content in the white masked areas of the first image and fill naturally with the surrounding background. Return only the edited image.",
+          },
+        ],
+      },
+    ],
     providerOptions: {
-      fal: { syncMode: true },
+      google: { responseModalities: ["IMAGE", "TEXT"] },
     },
-    abortSignal: AbortSignal.timeout(55_000),
+    abortSignal: AbortSignal.timeout(60_000),
   });
 
-  const cdnUrl = await uploadToS3(image.uint8Array, "png", "image/png");
+  // Extract generated image from response
+  const file = result.files?.[0];
+  if (!file) {
+    throw new Error("Gemini did not return an edited image");
+  }
+
+  const cdnUrl = await uploadToS3(file.uint8Array, "png", "image/png");
   return { cdnUrl };
 }
 
