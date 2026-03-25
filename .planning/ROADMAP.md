@@ -141,13 +141,13 @@ Plans:
   3. User can purchase additional credits as a one-time top-up
   4. User can view a usage dashboard showing remaining credits and consumption history
   5. User can toggle dark mode and the entire application renders correctly in both themes
-**Plans:** 4 plans
+**Plans:** 2/4 plans executed
 
 Plans:
-- [ ] 07-01-PLAN.md — Install packages, DB schema (subscriptions/credits tables), Stripe SDK, credit operations Server Actions
-- [ ] 07-02-PLAN.md — Stripe Checkout session route, webhook handler (subscription lifecycle, credit resets, top-ups)
-- [ ] 07-03-PLAN.md — Credit enforcement in AI actions, usage dashboard page (balance, pricing cards, usage table)
-- [ ] 07-04-PLAN.md — Dark mode: next-themes ThemeProvider, toggle in header, root layout wiring
+- [x] 07-01-PLAN.md — Install packages, DB schema (subscriptions/credits tables), Stripe SDK, credit operations Server Actions
+- [x] 07-02-PLAN.md — Stripe Checkout session route, webhook handler (subscription lifecycle, credit resets, top-ups)
+- [x] 07-03-PLAN.md — Credit enforcement in AI actions, usage dashboard page (balance, pricing cards, usage table)
+- [x] 07-04-PLAN.md — Dark mode: next-themes ThemeProvider, toggle in header, root layout wiring
 **UI hint**: yes
 
 ## Progress
@@ -163,4 +163,4 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7
 | 4. AI Background & Object Removal | 0/4 | Planning complete | - |
 | 5. AI Text Replacement | 0/3 | Planning complete | - |
 | 6. AI Upscaling & Style Transfer | 1/3 | In Progress|  |
-| 7. Billing, Credits & Polish | 0/4 | Planning complete | - |
+| 7. Billing, Credits & Polish | 2/4 | In Progress|  |
